@@ -2,21 +2,21 @@
 <html>
 <head>
 <title> Pretepači </title>
-<script src="logic.js" defer> </script>
+<script type="module" src="logic.js"> </script>
 <link rel="stylesheet" href="style.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
     <div class="menu">
 	    <h2>PRETEPAČI</h2>
-	    <button onclick="StartGame()"> Player vs Player </button>
-        <button onclick="AIOn()"> Player vs AI</button>
-        <button onclick="exit()"> Quit </button>
+	    <button id="PlayervPlayer"> Player vs Player </button>
+        <button id="PlayervAi"> Player vs AI</button>
+        <button id="exit"> Quit </button>
 	</div>
-    <div class ="selectchar" style='display: none'>
-        <h2>SELECR CHARACTER</h2>
-        <button id="warrior" onclick="chooseCharacter(this.id)">Warrior</button>
-        <button id="test2" onclick="chooseCharacter(this.id)">Character 2</button>
+    <div id="selectchar" style='display: none'>
+        <h2>SELECT CHARACTER</h2>
+        <button id="warrior"> Warrior     </button>
+        <button id="test2">   Character 2 </button>
 
     </div>
     <div id="container">

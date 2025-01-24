@@ -1,147 +1,20 @@
+import { Player } from "./classes/Player.js";
+import { Warrior } from "./classes/Warrior.js";
+
 // getting canvas element
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext("2d");
 canvas.style.border = '2px solid black';
+
 //global values
 let ai = false;
 const framespeed = 12;
 const gravity = 1.10;
 let Player1 = null;
 const P2 = null;
-//player class
-class Player{
 
-    constructor(height,width,x,y,flip,healthbar,hp){
-        this.height = height;
-        this.width = width;
-        this.x = x;
-        this.y = y;
-        this.flip = flip;
-        this.startypos = y;
-        this.healthbar = healthbar;
-        this.hp = hp;
-        //store the spritesheets and mirrored spritesheet for the player
-        this.sprite = new Image();
-        this.spriteM = new Image();
-        this.offset = {x: 0, y:0};
-        this.scale = 2;
-        this.collisionbox = {};
-        this.attackbox = {};
-        this.isAttacking = false;
-        this.isDead = false;
-    }
-    //functions for player movement
-    moveright(){
-        
-        this.x += 1;
-    }
-    moveleft(){
-        this.x -=1;
-    }
-    jump(){
-        this.y -= 10; 
-    }
-    //check if the player is on the ground
-    groundcheck(){
-        if(this.y < this.startypos){
-            
-            this.y += gravity;
-        }
-    }
-    takeDMG(amount){
-        let new_HP = this.hp - amount;
-        if(new_HP <= 0){
-            this.updateState('death');
-            this.isDead = true;
-            this.hp = 0;
-        }
-        else {
-            this.hp = new_HP; //change P2 hp to the new HP.
-            
-        }
-        //decreasce the width of the hit players healthbar
-        let ratio = this.hp / 100;
-        this.healthbar.style.width = (500 * ratio) + 'px';
-    }
-    //flip the sprite if need be
-    flipSprite(dst_x){
-        if(this.x > dst_x){
-            this.flip = true;
-        }
-        else {
-            this.flip = false;
-        }
-    }
-    attack(enemy,dmg){
-        //check if attack can be executed
-    }
-    //transition into a new animation
-}
-let P1framesC = 0;
-class Warrior extends Player
-{
-    constructor(height,width,x,y,flip,healthbar,hp,framesY,maxFrames,state,states){
-        super(height,width,x,y,flip,healthbar,hp);
-        this.framesY = framesY;
-        this.maxFrames = maxFrames;
-        this.state = state;
-        this.states = states;
-        this.framesX = 0;  
-    }
-    draw(){
-        if(this.isAttacking && this.framesX == this.states[this.state].attackFrame){
-            this.attack(player2,10);
-        }
-        ctx.fillStyle = 'red';
-        ctx.fillRect(this.x,this.y,this.collisionbox.width,this.collisionbox.height);
-        //check if we need to flip the spritesheet
-        if(this.isDead == false){
-            this.flipSprite(player2.x);
-        }
-        //flip the sprite if need be
-        if(this.flip == false){
-            ctx.drawImage(this.sprite,this.width*this.framesX,this.height*this.framesY,this.width,this.height, //src
-                this.x-(this.offset.x*this.scale),this.y-(this.offset.y*this.scale),this.width*this.scale,this.height*this.scale);
-            ctx.fillStyle = 'black';
-            ctx.fillRect(this.x + this.attackbox.offsetX, this.y + this.attackbox.offsetY,this.attackbox.width,this.attackbox.height);
-        }
-        else {
-            ctx.drawImage(this.spriteM,(this.spriteM.width-this.width) - (this.width*this.framesX),this.height*this.framesY,this.width,this.height, //src
-                this.x-(this.offset.x*this.scale),this.y-(this.offset.y*this.scale),this.width*this.scale,this.height*this.scale);
-            ctx.fillStyle = 'black';
-            ctx.fillRect(this.x - this.attackbox.offsetX, this.y + this.attackbox.offsetY,this.attackbox.width,this.attackbox.height);
-        }
-        //animation cycle
-        if(P1framesC % framespeed == 0){
-            if(this.framesX < this.maxFrames - 1){
-                this.framesX++;
-            }
-            //if need to repeat the animation restart the animation cycle
-            else if(this.states[this.state].autoRepeat){
-                this.framesX = 0;
-            }
-            //go back to idle after the animation is finished.
-            else {
-                if(this.isDead == false){
-                    this.updateState('idle');
-                    this.isAttacking = false;
-                }
-            }
-        }
-        P1framesC++;
-    }
-    updateState(state){
-            
-        //check if the state is in the dictionary
-        if(Object.keys(this.states).includes(state) && this.state != state){
-            //reset animation parameters
-            this.framesX = 0;
-            this.framesY = this.states[state].indexY;
-            this.maxFrames = this.states[state].frames;
-            this.state = state;       
-        }
-    }
-}
+
+
 //player input, when key is pressed set that key to true, when the key is not pressedset that key to false
 //Player 1 controls
 let key_A = false;
@@ -156,97 +29,49 @@ let key_Num1 = false;
 let key_Num2 = false;
 let key_UParrow = false;
 
-function KeyPressed(e){
-    if(e.code == 'KeyA'){
-        key_A = true;
+//event listeners
+document.getElementById("PlayervPlayer").addEventListener("click",SwitchWindow);
+document.getElementById("PlayervAi").addEventListener("click",AIOn);
+document.getElementById("exit").addEventListener("click",exit);
+
+
+
+
+//game loop functions
+//background image to be displayed
+let background = new Image(canvas.width,canvas.height);
+background.src = "../resources/background_placeholder.png";
+//function to hide main menu and display character selector
+function SwitchWindow(){
+    let menu_elements = document.getElementsByClassName("menu");
+    for(let i=0; i < menu_elements.length;i++){
+        menu_elements[i].style.display = "none";
+     
     }
-    else if(e.code == 'KeyD'){
-        key_D = true;
-    }
-    else if(e.code =='Space'){
-        key_space = true;
-    }
-    else if (e.code =='Digit1'){
-        key_1 = true;
-    }
-    else if(e.code == 'Digit2'){
-        key_2 = true;
-    }
-    else if(e.code == 'ArrowLeft' && ai == false){
-        key_Larrow = true;
-    }
-    else if(e.code == 'ArrowRight' && ai == false){
-        key_Rarrow = true;
-    }
-    else if(e.code == 'ArrowUp' && ai == false){
-        key_UParrow = true;
-    }
-    else if(e.code == 'Numpad1' && ai == false){
-        key_Num1 = true;
-    }
-    else if(e.code == 'Numpad2' && ai == false){
-        key_Num2 = true;
-    } 
-    
-}
-function KeyReleased(e){
-    //P1 checks
-    if(e.code == 'KeyA'){
-        key_A = false;
-        if(Player1.states[Player1.state].interuptable){
-            Player1.updateState('idle');
-        }
-    }
-    else if(e.code == 'KeyD'){
-        key_D = false;
-        if(Player1.states[Player1.state].interuptable){
-            Player1.updateState('idle');
-        }
-    }
-    else if(e.code == 'Space'){
-        key_space = false;
-    }
-    else if(e.code == 'Digit1'){
-        key_1 = false;  
-    }
-    else if(e.code == 'Digit2'){
-        key_2 = false;
-    }
-    //P2 check, check before if AI is turned ON or not, if its ON, ignore any input from P2
-    
-    else if(e.code == 'ArrowLeft' && ai == false){
-        key_Larrow = false;
-        if(player2.states[player2.state].interuptable){
-            player2.updateState('idle');
-        }
-    }
-    else if(e.code == 'ArrowRight' && ai == false){
-        key_Rarrow = false;
-        if(player2.states[player2.state].interuptable){
-            player2.updateState('idle');
-        }
-    }
-    else if(e.code == 'ArrowUp' && ai == false){
-        key_UParrow = false;
-    }
-    else if(e.code == 'Numpad1' && ai == false){
-        key_Num1 = false;
-    } 
-    else if(e.code == 'Numpad2' && ai == false){
-        key_Num2 = false;
-    }
+    let select_charcter_menu = document.getElementById("selectchar");
+    select_charcter_menu.style.display = "inline";
+    //add event listeners to buttons
+
+    select_charcter_menu.children[1].addEventListener("click",chooseCharacter);
+    select_charcter_menu.children[1].value = "warrior";
+    /*
+    canvas.width = 1920;
+    canvas.height = 1080;
+    canvas.style.width = '1920px';
+    canvas.style.height = '1080px'
+    ctx.scale(2, 2);
+    canvas.style.display='block';
+    */
     
 }
 
-const player2 = new Player(64,64,800,350,100,true,5,6,document.getElementById('P2healthbar'));
-//function to turn on AI, if the player picks that option from the main menu
 function AIOn(){
     ai = true;
     StartGame(); // go to the initilazion proces of the game with ai turned on (default off)
 }
 //character chooser for P1
-function chooseCharacter(val){
-    switch(val){
+function chooseCharacter(evt){
+    switch(evt.currentTarget.value){
         case "warrior":
             var warriorStates = {
                 idle: {frames: 10, indexY: 0, autoRepeat: true, interuptable: true},
@@ -293,34 +118,13 @@ function chooseCharacter(val){
     //show the canvas onto the screen
     initCanvas();
 }
-//function to hide main menu and display character selector
-function SwitchWindow(){
-    let menu_elements = document.getElementsByClassName("menu");
-    for(let i=0; i < menu_elements.length;i++){
-        menu_elements[i].style.display = "none";
-     
-    }
-    let select_charcter_menu = document.getElementsByClassName("selectchar");
-    for(let i=0; i < select_charcter_menu.length;i++){
-        select_charcter_menu[i].style.display = "inline";
-    }
-    /*
-    canvas.width = 1920;
-    canvas.height = 1080;
-    canvas.style.width = '1920px';
-    canvas.style.height = '1080px'
-    ctx.scale(2, 2);
-    canvas.style.display='block';
-    */
-    
-}
+
 //remove the character select menu and display the canvas
 function initCanvas(){
     //hide the character select menu: (maybe better to remove it)
-    let select_charcter_menu = document.getElementsByClassName("selectchar");
-    for(let i=0; i < select_charcter_menu.length;i++){
-        select_charcter_menu[i].style.display = "none";
-    }
+    let select_charcter_menu = document.getElementById("selectchar");
+    select_charcter_menu.style.display = "none";
+
     canvas.width = 1920;
     canvas.height = 1080;
     canvas.style.width = '1920px';
@@ -343,9 +147,18 @@ function initCanvas(){
     document.getElementById("P2Icon").style.display = "flex";
     timer();
 }
-//background image to be displayed
-let background = new Image(canvas.width,canvas.height);
-background.src = "../resources/background_placeholder.png";
+//exting game
+function exit(){
+    self.close();
+}
+
+
+
+
+const player2 = new Player(64,64,800,350,100,true,5,6,document.getElementById('P2healthbar'));
+
+
+
 //collison function, detect collison for game borders and player collision
 function Collison(){
     //edge collison P1
@@ -355,6 +168,7 @@ function Collison(){
     if(Player1.x + Player1.collisionbox.width > (canvas.width/2)){
         this.x -= 1;
     }
+    /*
     //edge collison P2
     if(player2.x < 0 ){
         player2.x += 1;
@@ -372,6 +186,7 @@ function Collison(){
         //player2.x += 1;
         //console.log("collison zabil si se");
     }
+        */
 }
 function Controls(){
     //disable movement if player is attacking
@@ -429,10 +244,7 @@ function draw(){
     DrawBackground();
     Player1.draw();
 }
-//setup for the game loop
-function StartGame(){
-    SwitchWindow();
-}
+
 //main game loop
 function GameLoop(){
     Controls();
@@ -455,8 +267,4 @@ function gameOver(P1status,P2status){
     setTimeout(() => {
         window.location.reload();
     }, 3000);
-}
-//exting game
-function exit(){
-    self.close();
 }
