@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Pretepači </title>
+<script src="logic.js" defer> </script>
+<link rel="stylesheet" href="style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+    <div class="menu">
+	    <h2>PRETEPAČI</h2>
+	    <button onclick="StartGame()"> Player vs Player </button>
+        <button onclick="AIOn()"> Player vs AI</button>
+        <button onclick="exit()"> Quit </button>
+	</div>
+    <div class ="selectchar" style='display: none'>
+        <h2>SELECR CHARACTER</h2>
+        <button id="warrior" onclick="chooseCharacter(this.id)">Warrior</button>
+        <button id="test2" onclick="chooseCharacter(this.id)">Character 2</button>
+
+    </div>
+    <div id="container">
+        <div id="UI">
+            <img src="../resources/placeholder_icon.jpg" id="P1Icon" width="200" height="200"></img>
+            <img src="../resources/placeholder_icon2.jpg" id="P2Icon" width="200" height="200"></img>
+            <div id="P1healthbar"></div>
+            <div id="P2healthbar"></div>
+
+            <div id="timer">
+                0
+            </div>
+        </div>
+        <canvas id="canvas" style='display:none'></canvas>
+	</div>
+</body>
+</html>
