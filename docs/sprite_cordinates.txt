@@ -1,0 +1,154 @@
+Fantasy warrior cordiantes:
+idle:
+1st frame
+x: 72
+y: 921
+w: 37
+h: 45
+2nd frame:
+x: 235
+y: 921
+w: 37
+h: 45
+
+3rd frame
+x: 400
+y: 921
+w: 37
+h: 45
+
+4th frame
+x: 563
+y: 921
+w: 37
+h: 45
+
+
+5th frame
+x: 725
+y: 921
+w: 37
+h: 45
+
+6th frame
+x: 884
+y: 921
+w: 37
+h: 45
+
+7th frame
+x: 1044
+y: 921
+w: 37
+h: 45
+
+8th frame
+x: 1206
+y: 921
+w: 37
+h: 45
+
+9th frame
+x: 1367
+y: 921
+w: 37
+h: 45
+
+10th frame
+x: 1529
+y: 921
+w: 37
+h: 45
+
+RUN:
+
+1st frame
+x: 57
+y: 1097
+w: 54
+h: 45
+2nd frame:
+x: 218
+y: 1097
+w: 54
+h: 45
+
+3rd frame
+x: 381
+y: 1097
+w: 54
+h: 45
+
+4th frame
+x: 541
+y: 1097
+w: 54
+h: 45
+
+
+5th frame
+x: 703
+y: 1097
+w: 54
+h: 45
+
+6th frame
+x: 865
+y: 1097
+w: 54
+h: 45
+
+7th frame
+x: 1029
+y: 1097
+w: 54
+h: 45
+
+8th frame
+x: 1191
+y: 1097
+w: 54
+h: 45
+
+ATTACK 1:
+1st frame
+x: 71
+y: 61
+w: 37
+h: 45
+2nd frame:
+x: 186
+y: 61
+w: 69
+h: 45
+
+3rd frame
+x: 349
+y: 61
+w: 69
+h: 45
+
+4th frame
+x: 516
+y: 61
+w: 69
+h: 45
+
+
+5th frame
+x: 714
+y: 54
+w: 72
+h: 52
+
+6th frame
+x: 856
+y: 59
+w: 69
+h: 47
+
+7th frame
+x: 1044
+y: 46
+w: 69
+h: 60
