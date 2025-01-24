@@ -1,5 +1,6 @@
 import { Player } from "./classes/Player.js";
 import { Warrior } from "./classes/Warrior.js";
+import { Controls} from "./classes/Controls.js";
 
 // getting canvas element
 let canvas = document.getElementById('canvas');
@@ -12,6 +13,8 @@ const framespeed = 12;
 const gravity = 1.10;
 let Player1 = null;
 const P2 = null;
+
+let controller = null;
 
 
 
@@ -28,6 +31,7 @@ let key_Rarrow = false;
 let key_Num1 = false;
 let key_Num2 = false;
 let key_UParrow = false;
+
 
 //event listeners
 document.getElementById("PlayervPlayer").addEventListener("click",SwitchWindow);
@@ -131,13 +135,8 @@ function initCanvas(){
     canvas.style.height = '1080px'
     ctx.scale(2, 2);
     canvas.style.display='block';
-    //add event listeners
-    document.addEventListener("keyup",function(e){
-        KeyReleased(e);
-    });
-    document.addEventListener("keydown",function(e){
-        KeyPressed(e);
-    });
+    controller  = new Controls(document,Player1);
+    controller.init();
     GameLoop();
     //display the timer again before starting it.
     document.getElementById("timer").style.display = "flex";
@@ -151,13 +150,6 @@ function initCanvas(){
 function exit(){
     self.close();
 }
-
-
-
-
-const player2 = new Player(64,64,800,350,100,true,5,6,document.getElementById('P2healthbar'));
-
-
 
 //collison function, detect collison for game borders and player collision
 function Collison(){
@@ -188,32 +180,7 @@ function Collison(){
     }
         */
 }
-function Controls(){
-    //disable movement if player is attacking
-    if(Player1.states[Player1.state].interuptable){
-        if(key_A){
-            Player1.moveleft();
-            Player1.updateState('run');
-        }
-        else if(key_D){
-            Player1.moveright();
-            Player1.updateState('run');
-        }
-        else if(key_space){
-            Player1.jump();
-            Player1.updateState('jump');
-        }
-        else if(key_1){
-            //this.updateState('attack1');
-            Player1.isAttacking = true;
-            Player1.updateState('attack1');
-           
-        }
-        else if(key_2){
-            Player1.isAttacking = true;
-        }
-    }
-}
+
 function DrawBackground(){
     let ratio = background.width / background.height;
     let width = canvas.width;
@@ -247,7 +214,9 @@ function draw(){
 
 //main game loop
 function GameLoop(){
-    Controls();
+    if(controller instanceof Controls){
+        controller.ControlHandler();
+    }
     Player1.groundcheck();
     Collison();
     draw();
