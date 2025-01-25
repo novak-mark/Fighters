@@ -1,8 +1,7 @@
 
-
 export class Player{
 
-    constructor(height,width,x,y,flip,healthbar,hp){
+    constructor(height,width,x,y,flip,healthbar,hp,sprite,spriteM){
         this.height = height;
         this.width = width;
         this.x = x;
@@ -12,8 +11,8 @@ export class Player{
         this.healthbar = healthbar;
         this.hp = hp;
         //store the spritesheets and mirrored spritesheet for the player
-        this.sprite = new Image();
-        this.spriteM = new Image();
+        this.sprite = sprite;
+        this.spriteM = spriteM;
         this.offset = {x: 0, y:0};
         this.scale = 2;
         this.collisionbox = {};
@@ -22,8 +21,7 @@ export class Player{
         this.isDead = false;
     }
     //functions for player movement
-    moveright(){
-        
+    moveright(){        
         this.x += 1;
     }
     moveleft(){

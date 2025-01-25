@@ -1,5 +1,6 @@
 import { Player } from "./classes/Player.js";
 import { Warrior } from "./classes/Warrior.js";
+import { Samurai } from "./classes/Samurai.js";
 import { Controls} from "./classes/Controls.js";
 
 // getting canvas element
@@ -12,26 +13,9 @@ let ai = false;
 const framespeed = 12;
 const gravity = 1.10;
 let Player1 = null;
-const P2 = null;
+let Player2 = null;
 
 let controller = null;
-
-
-
-//player input, when key is pressed set that key to true, when the key is not pressedset that key to false
-//Player 1 controls
-let key_A = false;
-let key_D = false;
-let key_1 = false;
-let key_2 = false;
-let key_space = false;
-//Player 2 controls (only avaiable if AI is turned off)
-let key_Larrow = false;
-let key_Rarrow = false;
-let key_Num1 = false;
-let key_Num2 = false;
-let key_UParrow = false;
-
 
 //event listeners
 document.getElementById("PlayervPlayer").addEventListener("click",SwitchWindow);
@@ -99,13 +83,41 @@ function chooseCharacter(evt){
             let framesY = warriorStates[warriorstate].indexY;
             let healthbar = document.getElementById('P1healthbar');
             
-            Player1 = new Warrior(warriorHeight,warriorWidth,50,100,false,healthbar,hp,framesY,maxFrames,warriorstate,warriorStates);
-            Player1.sprite = warriorSprite;
-            Player1.spriteM = warriorSpriteM;
+            Player1 = new Warrior(warriorHeight,warriorWidth,50,100,false,healthbar,hp,warriorSprite,warriorSpriteM,framesY,maxFrames,warriorstate,warriorStates);
             Player1.offset.x = warrioroffsetX;
             Player1.offset.y = warrioroffsetY;
             Player1.collisionbox = {width: 64, height: 120};
             Player1.attackbox = {offsetX: 60, offsetY: 0, width: 64, height: 120};
+
+            //create Player2
+            var samuraiStates = {
+                idle: {frames: 8, indexY: 4, autoRepeat: true, interuptable: true},
+                run: {frames: 8, indexY: 6, autoRepeat: true, interuptable: true},
+                attack1: {frames: 6, indexY: 0, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 200},
+                attack2: {frames: 6, indexY: 1, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 300},
+                hit: {frames: 4, indexY: 7, autoRepeat: false, interuptable: false},
+                death: {frames: 6, indexY: 2, autoRepeat: false, interuptable: false}
+            };
+            let samuraiSprite = new Image();
+            let samuraiSpriteM = new Image();
+            samuraiSprite.src  = "../resources/samurai.png";
+            samuraiSpriteM.src = "../resources/samurai_M.png";
+            let samuraiWidth = 200;
+            let samuraiHeight = 200;
+            let samuraioffsetX = 80;
+            let samuraioffsetY = 80;
+            let P2hp = 100;
+            let samuraistate = 'idle';
+            let P2maxFrames = samuraiStates[samuraistate].frames;
+            let P2framesY = samuraiStates[samuraistate].indexY;
+            let P2healthbar = document.getElementById('P2healthbar');
+            
+            Player2 = new Samurai(samuraiHeight,samuraiWidth,800,100,true,P2healthbar,P2hp,samuraiSprite,samuraiSpriteM,P2framesY,P2maxFrames,samuraistate,samuraiStates);
+            Player2.offset.x = samuraioffsetX;
+            Player2.offset.y = samuraioffsetY;
+            Player2.collisionbox = {width: 64, height: 120};
+            Player2.attackbox = {offsetX: 60, offsetY: 0, width: 64, height: 120};
+
             break;
         case "test2":
             this.sprite.src = "../resources/fantasy_waririor.png";
@@ -135,7 +147,7 @@ function initCanvas(){
     canvas.style.height = '1080px'
     ctx.scale(2, 2);
     canvas.style.display='block';
-    controller  = new Controls(document,Player1);
+    controller  = new Controls(document,Player1,Player2,ai);
     controller.init();
     GameLoop();
     //display the timer again before starting it.
@@ -210,6 +222,7 @@ function draw(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     DrawBackground();
     Player1.draw();
+    Player2.draw();
 }
 
 //main game loop

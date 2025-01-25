@@ -3,7 +3,7 @@ let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext("2d");
 let P1framesC = 0;
 const framespeed = 12;
-export class Warrior extends Player
+export class Samurai extends Player
 {
     constructor(height,width,x,y,flip,healthbar,hp,sprite,spriteM,framesY,maxFrames,state,states){
         super(height,width,x,y,flip,healthbar,hp,sprite,spriteM);
