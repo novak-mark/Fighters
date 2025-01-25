@@ -162,36 +162,35 @@ function initCanvas(){
 function exit(){
     self.close();
 }
-
 //collison function, detect collison for game borders and player collision
 function Collison(){
     //edge collison P1
     if(Player1.x < 0){
-        this.x += 1;
+        Player1.x += 1;
     }
     if(Player1.x + Player1.collisionbox.width > (canvas.width/2)){
-        this.x -= 1;
+        Player1.x -= 1;
     }
-    /*
     //edge collison P2
-    if(player2.x < 0 ){
-        player2.x += 1;
+    if(Player2.x < 0 ){
+        Player2.x += 1;
     }
-    if(player2.x + player2.collisionbox.width > (canvas.width/2)){
-        player2.x -= 1;
+    if(Player2.x + Player2.collisionbox.width > (canvas.width/2)){
+        Player2.x -= 1;
     }
     //player collison
-    if(Player1.x + Player1.collisionbox.width > player2.x &&
-       player2.x + player2.collisionbox.width > Player1.x &&
-       Player1.y + Player1.collisionbox.height > player2.y &&
-       player2.y + player2.collisionbox.height > Player1.y
+    if(Player1.x + Player1.collisionbox.width > Player2.x &&
+       Player2.x + Player2.collisionbox.width > Player1.x &&
+       Player1.y + Player1.collisionbox.height > Player2.y &&
+       Player2.y + Player2.collisionbox.height > Player1.y
     ){
         //this.x -= 1;
         //player2.x += 1;
         //console.log("collison zabil si se");
     }
-        */
+        
 }
+
 
 function DrawBackground(){
     let ratio = background.width / background.height;
