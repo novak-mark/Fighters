@@ -230,6 +230,12 @@ function GameLoop(){
     if(controller instanceof Controls){
         controller.ControlHandler();
     }
+    if(Player1.isDead == false){
+        Player1.flipSprite(Player2.x);
+    }
+    if(Player2.isDead == false){
+        Player2.flipSprite(Player1.x);
+    }
     Player1.groundcheck();
     Collison();
     draw();
