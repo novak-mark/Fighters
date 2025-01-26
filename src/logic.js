@@ -2,6 +2,7 @@ import { Player } from "./classes/Player.js";
 import { Warrior } from "./classes/Warrior.js";
 import { Samurai } from "./classes/Samurai.js";
 import { Controls} from "./classes/Controls.js";
+import { CollisionControler } from "./classes/CollisionControler.js";
 
 // getting canvas element
 let canvas = document.getElementById('canvas');
@@ -15,8 +16,9 @@ const gravity = 1.10;
 let Player1 = null;
 let Player2 = null;
 
+//controllers
 let controller = null;
-
+let collider = null;
 //event listeners
 document.getElementById("PlayervPlayer").addEventListener("click",SwitchWindow);
 document.getElementById("PlayervAi").addEventListener("click",AIOn);
@@ -73,8 +75,8 @@ function chooseCharacter(evt){
             let warriorSpriteM = new Image();
             warriorSprite.src  = "../resources/fantasy_waririor.png";
             warriorSpriteM.src = "../resources/fantasy_waririor_M.png";
-            let warriorWidth = 162;
-            let warriorHeight = 162;
+            let warriorWidth  =  Math.floor(warriorSprite.width   / 10);
+            let warriorHeight = Math.floor(warriorSprite.width / 10);
             let warrioroffsetX = 64;
             let warrioroffsetY = 45;
             let hp = 100;
@@ -83,7 +85,7 @@ function chooseCharacter(evt){
             let framesY = warriorStates[warriorstate].indexY;
             let healthbar = document.getElementById('P1healthbar');
             
-            Player1 = new Warrior(warriorHeight,warriorWidth,50,100,false,healthbar,hp,warriorSprite,warriorSpriteM,framesY,maxFrames,warriorstate,warriorStates);
+            Player1 = new Warrior(warriorHeight,warriorWidth,50,400,false,healthbar,hp,warriorSprite,warriorSpriteM,framesY,maxFrames,warriorstate,warriorStates);
             Player1.offset.x = warrioroffsetX;
             Player1.offset.y = warrioroffsetY;
             Player1.collisionbox = {width: 64, height: 120};
@@ -102,17 +104,19 @@ function chooseCharacter(evt){
             let samuraiSpriteM = new Image();
             samuraiSprite.src  = "../resources/samurai.png";
             samuraiSpriteM.src = "../resources/samurai_M.png";
-            let samuraiWidth = 200;
-            let samuraiHeight = 200;
+            //calculated with spritesheet.width / maxframes
+            console.log(samuraiSprite.width);
+            let samuraiWidth =  Math.floor(samuraiSprite.width  / 8);
+            let samuraiHeight = Math.floor(samuraiSprite.height / 8); 
             let samuraioffsetX = 80;
-            let samuraioffsetY = 80;
+            let samuraioffsetY = 65;
             let P2hp = 100;
             let samuraistate = 'idle';
             let P2maxFrames = samuraiStates[samuraistate].frames;
             let P2framesY = samuraiStates[samuraistate].indexY;
             let P2healthbar = document.getElementById('P2healthbar');
             
-            Player2 = new Samurai(samuraiHeight,samuraiWidth,800,100,true,P2healthbar,P2hp,samuraiSprite,samuraiSpriteM,P2framesY,P2maxFrames,samuraistate,samuraiStates);
+            Player2 = new Samurai(samuraiHeight,samuraiWidth,800,400,true,P2healthbar,P2hp,samuraiSprite,samuraiSpriteM,P2framesY,P2maxFrames,samuraistate,samuraiStates);
             Player2.offset.x = samuraioffsetX;
             Player2.offset.y = samuraioffsetY;
             Player2.collisionbox = {width: 64, height: 120};
@@ -157,40 +161,12 @@ function initCanvas(){
     document.getElementById("P1Icon").style.display = "flex";
     document.getElementById("P2Icon").style.display = "flex";
     timer();
+    collider = new CollisionControler(Player1,Player2,canvas.width);
 }
 //exting game
 function exit(){
     self.close();
 }
-//collison function, detect collison for game borders and player collision
-function Collison(){
-    //edge collison P1
-    if(Player1.x < 0){
-        Player1.x += 1;
-    }
-    if(Player1.x + Player1.collisionbox.width > (canvas.width/2)){
-        Player1.x -= 1;
-    }
-    //edge collison P2
-    if(Player2.x < 0 ){
-        Player2.x += 1;
-    }
-    if(Player2.x + Player2.collisionbox.width > (canvas.width/2)){
-        Player2.x -= 1;
-    }
-    //player collison
-    if(Player1.x + Player1.collisionbox.width > Player2.x &&
-       Player2.x + Player2.collisionbox.width > Player1.x &&
-       Player1.y + Player1.collisionbox.height > Player2.y &&
-       Player2.y + Player2.collisionbox.height > Player1.y
-    ){
-        //this.x -= 1;
-        //player2.x += 1;
-        //console.log("collison zabil si se");
-    }
-        
-}
-
 
 function DrawBackground(){
     let ratio = background.width / background.height;
@@ -220,14 +196,17 @@ function draw(){
     //clear canvas before resuming draw operations
     ctx.clearRect(0,0,canvas.width,canvas.height);
     DrawBackground();
-    Player1.draw();
-    Player2.draw();
+    Player1.draw(Player2);
+    Player2.draw(Player1);
 }
 
 //main game loop
 function GameLoop(){
     if(controller instanceof Controls){
         controller.ControlHandler();
+    }
+    if(collider instanceof CollisionControler){
+        collider.Collison();
     }
     if(Player1.isDead == false){
         Player1.flipSprite(Player2.x);
@@ -236,7 +215,6 @@ function GameLoop(){
         Player2.flipSprite(Player1.x);
     }
     Player1.groundcheck();
-    Collison();
     draw();
 
     window.requestAnimationFrame(GameLoop);

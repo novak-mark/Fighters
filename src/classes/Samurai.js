@@ -13,7 +13,7 @@ export class Samurai extends Player
         this.states = states;
         this.framesX = 0;  
     }
-    draw(){
+    draw(enemyPlayer){
         if(this.isAttacking && this.framesX == this.states[this.state].attackFrame){
             //this.attack(player2,10);
         }
@@ -27,14 +27,14 @@ export class Samurai extends Player
         if(this.flip == false){
             ctx.drawImage(this.sprite,this.width*this.framesX,this.height*this.framesY,this.width,this.height, //src
                 this.x-(this.offset.x*this.scale),this.y-(this.offset.y*this.scale),this.width*this.scale,this.height*this.scale);
-            ctx.fillStyle = 'black';
-            ctx.fillRect(this.x + this.attackbox.offsetX, this.y + this.attackbox.offsetY,this.attackbox.width,this.attackbox.height);
+            //ctx.fillStyle = 'black';
+            //ctx.fillRect(this.x + this.attackbox.offsetX, this.y + this.attackbox.offsetY,this.attackbox.width,this.attackbox.height);
         }
         else {
             ctx.drawImage(this.spriteM,(this.spriteM.width-this.width) - (this.width*this.framesX),this.height*this.framesY,this.width,this.height, //src
                 this.x-(this.offset.x*this.scale),this.y-(this.offset.y*this.scale),this.width*this.scale,this.height*this.scale);
-            ctx.fillStyle = 'black';
-            ctx.fillRect(this.x - this.attackbox.offsetX, this.y + this.attackbox.offsetY,this.attackbox.width,this.attackbox.height);
+            //ctx.fillStyle = 'black';
+            //ctx.fillRect(this.x - this.attackbox.offsetX, this.y + this.attackbox.offsetY,this.attackbox.width,this.attackbox.height);
         }
         //animation cycle
         if(P1framesC % framespeed == 0){

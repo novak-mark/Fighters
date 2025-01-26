@@ -13,9 +13,12 @@ export class Warrior extends Player
         this.states = states;
         this.framesX = 0;  
     }
-    draw(){
-        if(this.isAttacking && this.framesX == this.states[this.state].attackFrame){
-            //this.attack(player2,10);
+    draw(enemyPlayer){
+        if(this.canAttack && this.framesX == this.states[this.state].attackFrame){
+            
+            console.log("attacking");
+            this.attackCollision(enemyPlayer);
+            //this.canAttack = false;
         }
         ctx.fillStyle = 'red';
         ctx.fillRect(this.x,this.y,this.collisionbox.width,this.collisionbox.height);

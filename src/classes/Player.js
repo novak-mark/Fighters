@@ -17,7 +17,7 @@ export class Player{
         this.scale = 2;
         this.collisionbox = {};
         this.attackbox = {};
-        this.isAttacking = false;
+        this.canAttack = true;
         this.isDead = false;
     }
     //functions for player movement
@@ -61,8 +61,22 @@ export class Player{
             this.flip = false;
         }
     }
-    attack(enemy,dmg){
-        //check if attack can be executed
-    }
     //transition into a new animation
+    attackCollision(enemyPlayer){
+        console.log("halo");
+        console.log("Attackbox x: " + this.x + " width: " + this.attackbox.width);
+        console.log("Attacbox y: " + this.y +  " height: " + this.attackbox.height);
+
+        console.log("Enemy player x: " + enemyPlayer.x + " width: " + enemyPlayer.collisionbox.width);
+        console.log("Enemy Player y: " + enemyPlayer.y + " height: " + enemyPlayer.collisionbox.height);
+
+        if (
+            this.x + this.attackbox.width + this.attackbox.offsetX > enemyPlayer.x &&
+            enemyPlayer.x + enemyPlayer.collisionbox.width > this.x &&
+            this.y + this.attackbox.height + this.attackbox.offsetY > enemyPlayer.y &&
+            enemyPlayer.y + enemyPlayer.collisionbox.height > this.y
+          ) {
+            enemyPlayer.updateState("hit");
+          }
+    }
 }
