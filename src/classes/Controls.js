@@ -98,15 +98,15 @@ export class Controls {
         
   }
 
-  ControlHandler() {
+  ControlHandler(dt) {
     //disable movement if this.player is attacking
     if (this.player1.states[this.player1.state].interuptable) {
       if (controlMap["keyA"]) {
-        this.player1.moveleft();
+        this.player1.moveleft(dt);
         this.player1.updateState("run");
       } 
       else if (controlMap["keyD"]) {
-        this.player1.moveright();
+        this.player1.moveright(dt);
         this.player1.updateState("run");
       } 
       else if (controlMap["keySpace"]) {
@@ -122,11 +122,11 @@ export class Controls {
     }
     if(this.player2.states[this.player2.state].interuptable){
       if(controlMap["keyLarrow"]){
-        this.player2.moveleft();
+        this.player2.moveleft(dt);
         this.player2.updateState("run");
       }
       if(controlMap["keyRarrow"]){
-        this.player2.moveright();
+        this.player2.moveright(dt);
         this.player2.updateState("run");
       }
       if(controlMap["keyNum1"]){

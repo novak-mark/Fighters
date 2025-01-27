@@ -21,11 +21,11 @@ export class Player{
         this.isDead = false;
     }
     //functions for player movement
-    moveright(){        
-        this.x += 1;
+    moveright(dt){        
+        this.x += 1 * dt;
     }
-    moveleft(){
-        this.x -=1;
+    moveleft(dt){
+        this.x -= 1 * dt;
     }
     jump(){
         this.y -= 10; 
@@ -62,21 +62,20 @@ export class Player{
         }
     }
     //transition into a new animation
+    //check if attack hit P2 
     attackCollision(enemyPlayer){
-        console.log("halo");
-        console.log("Attackbox x: " + this.x + " width: " + this.attackbox.width);
-        console.log("Attacbox y: " + this.y +  " height: " + this.attackbox.height);
-
-        console.log("Enemy player x: " + enemyPlayer.x + " width: " + enemyPlayer.collisionbox.width);
-        console.log("Enemy Player y: " + enemyPlayer.y + " height: " + enemyPlayer.collisionbox.height);
-
-        if (
-            this.x + this.attackbox.width + this.attackbox.offsetX > enemyPlayer.x &&
-            enemyPlayer.x + enemyPlayer.collisionbox.width > this.x &&
-            this.y + this.attackbox.height + this.attackbox.offsetY > enemyPlayer.y &&
-            enemyPlayer.y + enemyPlayer.collisionbox.height > this.y
-          ) {
+        let direction = 1;
+        if(this.flip){
+            direction = -1;
+        }
+        
+        if( this.x + (this.attackbox.offsetX * direction) < enemyPlayer.x + enemyPlayer.collisionbox.width &&
+            this.x + (this.attackbox.offsetX * direction) + this.attackbox.width > enemyPlayer.x &&
+            this.y + this.attackbox.offsetY < enemyPlayer.y + enemyPlayer.collisionbox.height &&
+            this.y + this.attackbox.offsetY + this.attackbox.height > enemyPlayer.y 
+        ){
             enemyPlayer.updateState("hit");
-          }
+
+        }
     }
 }

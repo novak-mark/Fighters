@@ -13,7 +13,7 @@ export class Samurai extends Player
         this.states = states;
         this.framesX = 0;  
     }
-    draw(enemyPlayer){
+    draw(enemyPlayer,dt){
         if(this.isAttacking && this.framesX == this.states[this.state].attackFrame){
             //this.attack(player2,10);
         }

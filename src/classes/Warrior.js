@@ -13,7 +13,7 @@ export class Warrior extends Player
         this.states = states;
         this.framesX = 0;  
     }
-    draw(enemyPlayer){
+    draw(enemyPlayer,dt){
         if(this.canAttack && this.framesX == this.states[this.state].attackFrame){
             
             console.log("attacking");

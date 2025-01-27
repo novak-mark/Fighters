@@ -16,6 +16,12 @@ const gravity = 1.10;
 let Player1 = null;
 let Player2 = null;
 
+const FPS = 60;
+let interval = Math.floor(1000 / FPS);
+
+let previousTime = performance.now();
+let dt = 0;
+
 //controllers
 let controller = null;
 let collider = null;
@@ -192,18 +198,24 @@ function timer(){
     secs+=1;
 }
 //function to draw all the required assets on
-function draw(){
+function draw(dt){
     //clear canvas before resuming draw operations
     ctx.clearRect(0,0,canvas.width,canvas.height);
     DrawBackground();
-    Player1.draw(Player2);
-    Player2.draw(Player1);
+    Player1.draw(Player2,dt);
+    Player2.draw(Player1,dt);
 }
 
 //main game loop
-function GameLoop(){
+
+
+function GameLoop(currentTime){
+    console.log(currentTime);
+    dt = currentTime - previousTime;
+    dt = dt / interval;
+    previousTime = currentTime;
     if(controller instanceof Controls){
-        controller.ControlHandler();
+        controller.ControlHandler(dt);
     }
     if(collider instanceof CollisionControler){
         collider.Collison();
@@ -215,7 +227,7 @@ function GameLoop(){
         Player2.flipSprite(Player1.x);
     }
     Player1.groundcheck();
-    draw();
+    draw(dt);
 
     window.requestAnimationFrame(GameLoop);
 
