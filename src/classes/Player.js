@@ -22,10 +22,10 @@ export class Player{
     }
     //functions for player movement
     moveright(dt){        
-        this.x += 1 * dt;
+        this.x += 3 * dt;
     }
     moveleft(dt){
-        this.x -= 1 * dt;
+        this.x -= 3 * dt;
     }
     jump(){
         this.y -= 10; 
@@ -61,10 +61,16 @@ export class Player{
             this.flip = false;
         }
     }
+    attack(enemyPlayer,dmg){
+        console.log(dmg);
+        enemyPlayer.updateState("hit");
+        enemyPlayer.takeDMG(dmg);
+    }
     //transition into a new animation
     //check if attack hit P2 
     attackCollision(enemyPlayer){
         let direction = 1;
+        let hit = false
         if(this.flip){
             direction = -1;
         }
@@ -72,10 +78,11 @@ export class Player{
         if( this.x + (this.attackbox.offsetX * direction) < enemyPlayer.x + enemyPlayer.collisionbox.width &&
             this.x + (this.attackbox.offsetX * direction) + this.attackbox.width > enemyPlayer.x &&
             this.y + this.attackbox.offsetY < enemyPlayer.y + enemyPlayer.collisionbox.height &&
-            this.y + this.attackbox.offsetY + this.attackbox.height > enemyPlayer.y 
+            this.y + this.attackbox.offsetY + this.attackbox.height > enemyPlayer.y && 
+            enemyPlayer.isDead == false 
         ){
-            enemyPlayer.updateState("hit");
-
+            hit = true;
         }
+        return hit;
     }
 }

@@ -72,8 +72,8 @@ function chooseCharacter(evt){
             var warriorStates = {
                 idle: {frames: 10, indexY: 0, autoRepeat: true, interuptable: true},
                 run: {frames: 8, indexY: 1, autoRepeat: true, interuptable: true},
-                attack1: {frames: 7, indexY: 3, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 200},
-                attack2: {frames: 7, indexY: 4, autoRepeat: false, interuptable: false, attackFrame: 2, cooldown: 300},
+                attack1: {frames: 7, indexY: 3, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 75, dmg: 10},
+                attack2: {frames: 7, indexY: 4, autoRepeat: false, interuptable: false, attackFrame: 2, cooldown: 300,dmg: 40},
                 hit: {frames: 3, indexY: 5, autoRepeat: false, interuptable: false},
                 death: {frames: 7, indexY:6, autoRepeat: false, interuptable: false}
             };
@@ -101,8 +101,8 @@ function chooseCharacter(evt){
             var samuraiStates = {
                 idle: {frames: 8, indexY: 4, autoRepeat: true, interuptable: true},
                 run: {frames: 8, indexY: 6, autoRepeat: true, interuptable: true},
-                attack1: {frames: 6, indexY: 0, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 200},
-                attack2: {frames: 6, indexY: 1, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 300},
+                attack1: {frames: 6, indexY: 0, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 50, dmg: 5},
+                attack2: {frames: 6, indexY: 1, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 80, dmg: 20},
                 hit: {frames: 4, indexY: 7, autoRepeat: false, interuptable: false},
                 death: {frames: 6, indexY: 2, autoRepeat: false, interuptable: false}
             };
@@ -126,7 +126,7 @@ function chooseCharacter(evt){
             Player2.offset.x = samuraioffsetX;
             Player2.offset.y = samuraioffsetY;
             Player2.collisionbox = {width: 64, height: 120};
-            Player2.attackbox = {offsetX: 60, offsetY: 0, width: 64, height: 120};
+            Player2.attackbox = {offsetX: 115, offsetY: 15, width: 80, height: 64};
 
             break;
         case "test2":
@@ -210,7 +210,6 @@ function draw(dt){
 
 
 function GameLoop(currentTime){
-    console.log(currentTime);
     dt = currentTime - previousTime;
     dt = dt / interval;
     previousTime = currentTime;

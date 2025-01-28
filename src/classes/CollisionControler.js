@@ -8,17 +8,17 @@ export class CollisionControler {
   Collison() {
     //edge collison P1
     if (this.player1.x < 0) {
-      this.player1.x += 1;
+      this.player1.x += 3;
     }
     if (this.player1.x + this.player1.collisionbox.width > this.canvasWidth / 2) {
-      this.player1.x -= 1;
+      this.player1.x -= 3;
     }
     //edge collison P2
     if (this.player2.x < 0) {
-      this.player2.x += 1;
+      this.player2.x += 3;
     }
     if (this.player2.x + this.player2.collisionbox.width > this.canvasWidth / 2) {
-      this.player2.x -= 1;
+      this.player2.x -= 3;
     }
     //player collison
     if (

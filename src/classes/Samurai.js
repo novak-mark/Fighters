@@ -12,10 +12,26 @@ export class Samurai extends Player
         this.state = state;
         this.states = states;
         this.framesX = 0;  
+        this.cooldownTime = 0;  
     }
     draw(enemyPlayer,dt){
-        if(this.isAttacking && this.framesX == this.states[this.state].attackFrame){
-            //this.attack(player2,10);
+        if(this.canAttack && this.framesX == this.states[this.state].attackFrame){
+            
+            console.log("attacking");
+            let hit = this.attackCollision(enemyPlayer);
+            if(hit){
+                this.attack(enemyPlayer,this.states[this.state].dmg);
+            }
+            this.canAttack = false;
+            this.cooldownTime = this.states[this.state].cooldown;
+
+        }
+        if(this.canAttack == false){
+            this.cooldownTime -=dt;
+            if(this.cooldownTime <= 0){
+                this.canAttack = true;
+                this.cooldownTime = 0;
+            }
         }
         ctx.fillStyle = 'red';
         ctx.fillRect(this.x,this.y,this.collisionbox.width,this.collisionbox.height);
@@ -27,14 +43,14 @@ export class Samurai extends Player
         if(this.flip == false){
             ctx.drawImage(this.sprite,this.width*this.framesX,this.height*this.framesY,this.width,this.height, //src
                 this.x-(this.offset.x*this.scale),this.y-(this.offset.y*this.scale),this.width*this.scale,this.height*this.scale);
-            //ctx.fillStyle = 'black';
-            //ctx.fillRect(this.x + this.attackbox.offsetX, this.y + this.attackbox.offsetY,this.attackbox.width,this.attackbox.height);
+            ctx.fillStyle = 'black';
+            ctx.fillRect(this.x + this.attackbox.offsetX, this.y + this.attackbox.offsetY,this.attackbox.width,this.attackbox.height);
         }
         else {
             ctx.drawImage(this.spriteM,(this.spriteM.width-this.width) - (this.width*this.framesX),this.height*this.framesY,this.width,this.height, //src
                 this.x-(this.offset.x*this.scale),this.y-(this.offset.y*this.scale),this.width*this.scale,this.height*this.scale);
-            //ctx.fillStyle = 'black';
-            //ctx.fillRect(this.x - this.attackbox.offsetX, this.y + this.attackbox.offsetY,this.attackbox.width,this.attackbox.height);
+            ctx.fillStyle = 'black';
+            ctx.fillRect(this.x - this.attackbox.offsetX, this.y + this.attackbox.offsetY,this.attackbox.width,this.attackbox.height);
         }
         //animation cycle
         if(P1framesC % framespeed == 0){

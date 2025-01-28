@@ -116,8 +116,8 @@ export class Controls {
       else if (controlMap["key1"] && this.player1.canAttack) {
         this.player1.updateState("attack1");
       } 
-      else if (controlMap["key2"]) {
-        this.player1.isAttacking = true;
+      else if (controlMap["key2"] && this.player1.canAttack) {
+        this.player1.updateState("attack2");
       }
     }
     if(this.player2.states[this.player2.state].interuptable){
@@ -129,9 +129,11 @@ export class Controls {
         this.player2.moveright(dt);
         this.player2.updateState("run");
       }
-      if(controlMap["keyNum1"]){
-        this.player2.isAttacking = true;
+      if(controlMap["keyNum1"] && this.player2.canAttack){
         this.player2.updateState("attack1");
+      }
+      if(controlMap["keyNum2"] && this.player2.canAttack){
+        this.player2.updateState("attack2");
       }
     }
   }

@@ -11,14 +11,28 @@ export class Warrior extends Player
         this.maxFrames = maxFrames;
         this.state = state;
         this.states = states;
-        this.framesX = 0;  
+        this.framesX = 0;
+        this.cooldownTime = 0;  
     }
     draw(enemyPlayer,dt){
         if(this.canAttack && this.framesX == this.states[this.state].attackFrame){
             
             console.log("attacking");
-            this.attackCollision(enemyPlayer);
-            //this.canAttack = false;
+            let hit = this.attackCollision(enemyPlayer);
+            if(hit){
+                this.attack(enemyPlayer,this.states[this.state].dmg);
+            }
+            this.canAttack = false;
+            this.cooldownTime = this.states[this.state].cooldown;
+        }
+        if(this.canAttack == false){
+            console.log(dt);
+            console.log(this.cooldownTime);
+            this.cooldownTime -=dt;
+            if(this.cooldownTime <= 0){
+                this.canAttack = true;
+                this.cooldownTime = 0;
+            }
         }
         ctx.fillStyle = 'red';
         ctx.fillRect(this.x,this.y,this.collisionbox.width,this.collisionbox.height);
