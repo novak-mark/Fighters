@@ -3,6 +3,7 @@ import { Warrior } from "./classes/Warrior.js";
 import { Samurai } from "./classes/Samurai.js";
 import { Controls} from "./classes/Controls.js";
 import { CollisionControler } from "./classes/CollisionControler.js";
+import { easySamurai } from "./functions/easyAi.js";
 
 // getting canvas element
 let canvas = document.getElementById('canvas');
@@ -63,7 +64,7 @@ function SwitchWindow(){
 
 function AIOn(){
     ai = true;
-    StartGame(); // go to the initilazion proces of the game with ai turned on (default off)
+    SwitchWindow(); // go to the initilazion proces of the game with ai turned on (default off)
 }
 //character chooser for P1
 function chooseCharacter(evt){
@@ -226,6 +227,11 @@ function GameLoop(currentTime){
         Player2.flipSprite(Player1.x);
     }
     Player1.groundcheck();
+    
+    //if AI is turned on then call the function for the AI.
+    if(ai && Player2.isDead == false){
+        easySamurai(Player1,Player2,dt);
+    }
     draw(dt);
 
     window.requestAnimationFrame(GameLoop);

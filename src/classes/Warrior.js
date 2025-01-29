@@ -16,8 +16,6 @@ export class Warrior extends Player
     }
     draw(enemyPlayer,dt){
         if(this.canAttack && this.framesX == this.states[this.state].attackFrame){
-            
-            console.log("attacking");
             let hit = this.attackCollision(enemyPlayer);
             if(hit){
                 this.attack(enemyPlayer,this.states[this.state].dmg);
@@ -26,8 +24,6 @@ export class Warrior extends Player
             this.cooldownTime = this.states[this.state].cooldown;
         }
         if(this.canAttack == false){
-            console.log(dt);
-            console.log(this.cooldownTime);
             this.cooldownTime -=dt;
             if(this.cooldownTime <= 0){
                 this.canAttack = true;
