@@ -14,10 +14,12 @@ export function easySamurai(player1,player2,dt){
             else {
                 player2.moveright(0.25);
             }
+            player2.updateState("run");
         }
         else {
 
             if(player2.canAttack){
+
                 player2.updateState("attack1");
             }
             else {
