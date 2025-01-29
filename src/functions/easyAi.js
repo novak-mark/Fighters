@@ -25,11 +25,13 @@ export function easySamurai(player1,player2,dt){
             else {
                 //after attack move back
                 player2.moveright(0.25);
+                player2.updateState("run");
             }
 
         }
     }
     if(player1.state == 'attack1' && dst < 200){
         player2.moveright(0.25);
+        player2.updateState("run");
     }
 }
