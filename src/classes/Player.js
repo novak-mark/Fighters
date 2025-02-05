@@ -1,3 +1,5 @@
+import { PlaySound } from "../logic.js"
+
 
 export class Player{
 
@@ -63,7 +65,10 @@ export class Player{
     }
     attack(enemyPlayer,dmg){
         console.log(dmg);
+        PlaySound("../resources/sound/hit.mp3");
         enemyPlayer.updateState("hit");
+
+
         enemyPlayer.takeDMG(dmg);
     }
     //transition into a new animation

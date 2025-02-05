@@ -102,7 +102,7 @@ function chooseCharacter(evt){
             var samuraiStates = {
                 idle: {frames: 8, indexY: 4, autoRepeat: true, interuptable: true},
                 run: {frames: 8, indexY: 6, autoRepeat: true, interuptable: true},
-                attack1: {frames: 6, indexY: 0, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 50, dmg: 105},
+                attack1: {frames: 6, indexY: 0, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 50, dmg: 40},
                 attack2: {frames: 6, indexY: 1, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 80, dmg: 120},
                 hit: {frames: 4, indexY: 7, autoRepeat: false, interuptable: false},
                 death: {frames: 6, indexY: 2, autoRepeat: false, interuptable: false}
@@ -238,6 +238,11 @@ function GameLoop(currentTime){
     draw(dt);
 
     window.requestAnimationFrame(GameLoop);
+
+}
+export function PlaySound(sound){
+    let audio = new Audio(sound);
+    audio.play();
 
 }
 //restart the game when one of the player dies

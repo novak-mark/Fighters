@@ -1,4 +1,5 @@
 import { Player } from "./Player.js";
+import { PlaySound } from "../logic.js"
 
 //player input, when key is pressed set that key to true, when the key is not pressedset that key to false
 const controlMap = {
@@ -130,9 +131,11 @@ export class Controls {
         this.player2.updateState("run");
       }
       if(controlMap["keyNum1"] && this.player2.canAttack){
+        PlaySound("../resources/sound/katana.mp3");
         this.player2.updateState("attack1");
       }
       if(controlMap["keyNum2"] && this.player2.canAttack){
+        PlaySound("../resources/sound/katana.mp3");
         this.player2.updateState("attack2");
       }
     }
