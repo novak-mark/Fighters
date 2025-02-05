@@ -49,3 +49,12 @@
     background-color: green;
 
 }
+
+#gameovertxt{
+    position: absolute;
+    top: 400px;
+    left: 900px;
+    font-size: 28px;
+    font-weight: bold;
+
+}

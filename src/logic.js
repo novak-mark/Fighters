@@ -73,8 +73,8 @@ function chooseCharacter(evt){
             var warriorStates = {
                 idle: {frames: 10, indexY: 0, autoRepeat: true, interuptable: true},
                 run: {frames: 8, indexY: 1, autoRepeat: true, interuptable: true},
-                attack1: {frames: 7, indexY: 3, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 75, dmg: 10},
-                attack2: {frames: 7, indexY: 4, autoRepeat: false, interuptable: false, attackFrame: 2, cooldown: 300,dmg: 40},
+                attack1: {frames: 7, indexY: 3, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 75, dmg: 100},
+                attack2: {frames: 7, indexY: 4, autoRepeat: false, interuptable: false, attackFrame: 2, cooldown: 300,dmg: 140},
                 hit: {frames: 3, indexY: 5, autoRepeat: false, interuptable: false},
                 death: {frames: 7, indexY:6, autoRepeat: false, interuptable: false}
             };
@@ -102,8 +102,8 @@ function chooseCharacter(evt){
             var samuraiStates = {
                 idle: {frames: 8, indexY: 4, autoRepeat: true, interuptable: true},
                 run: {frames: 8, indexY: 6, autoRepeat: true, interuptable: true},
-                attack1: {frames: 6, indexY: 0, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 50, dmg: 5},
-                attack2: {frames: 6, indexY: 1, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 80, dmg: 20},
+                attack1: {frames: 6, indexY: 0, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 50, dmg: 105},
+                attack2: {frames: 6, indexY: 1, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 80, dmg: 120},
                 hit: {frames: 4, indexY: 7, autoRepeat: false, interuptable: false},
                 death: {frames: 6, indexY: 2, autoRepeat: false, interuptable: false}
             };
@@ -232,6 +232,9 @@ function GameLoop(currentTime){
     if(ai && Player2.isDead == false){
         easySamurai(Player1,Player2,dt);
     }
+    if(Player1.isDead || Player2.isDead){
+        gameOver(Player1.isDead);
+    }
     draw(dt);
 
     window.requestAnimationFrame(GameLoop);
@@ -240,11 +243,13 @@ function GameLoop(currentTime){
 //restart the game when one of the player dies
 function gameOver(P1status,P2status){
     //draw Player WON text on to the screen
+    let txt = document.getElementById("gameovertxt");
+
     if(P1status){
-        console.log('P2 WON');
+        txt.innerHTML = "P2 WON";
     }
     else {
-        console.log('P1 WON');
+        txt.innerHTML = "P1 WON";
     }
     setTimeout(() => {
         window.location.reload();
