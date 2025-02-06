@@ -115,9 +115,11 @@ export class Controls {
         this.player1.updateState("jump");
       } 
       else if (controlMap["key1"] && this.player1.canAttack) {
+        PlaySound("../resources/sound/sword.mp3");
         this.player1.updateState("attack1");
       } 
       else if (controlMap["key2"] && this.player1.canAttack) {
+        PlaySound("../resources/sound/sword.mp3");
         this.player1.updateState("attack2");
       }
     }

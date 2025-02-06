@@ -36,8 +36,8 @@ document.getElementById("exit").addEventListener("click",exit);
 
 //game loop functions
 //background image to be displayed
-let background = new Image(canvas.width,canvas.height);
-background.src = "../resources/background_placeholder.png";
+let background = document.getElementById("backgroundimg");
+
 //function to hide main menu and display character selector
 function SwitchWindow(){
     let menu_elements = document.getElementsByClassName("menu");
@@ -151,11 +151,11 @@ function initCanvas(){
     //hide the character select menu: (maybe better to remove it)
     let select_charcter_menu = document.getElementById("selectchar");
     select_charcter_menu.style.display = "none";
-
+    console.log(background.height)
     canvas.width = 1920;
     canvas.height = 1080;
-    canvas.style.width = '1920px';
-    canvas.style.height = '1080px'
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
     ctx.scale(2, 2);
     canvas.style.display='block';
     controller  = new Controls(document,Player1,Player2,ai);
@@ -176,10 +176,7 @@ function exit(){
 }
 
 function DrawBackground(){
-    let ratio = background.width / background.height;
-    let width = canvas.width;
-    let height = width / 3.5;
-    ctx.drawImage(background,0,0,width,height);
+    background.style.display = "inline";
 }
 //timer that will show how long the game lasts
 let secs = 0;
