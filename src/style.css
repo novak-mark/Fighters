@@ -8,6 +8,7 @@
     position: absolute;
     width: 100%;
     left: 5.20%;
+    z-index: 20;
 }
 #timer{
     position: absolute;
