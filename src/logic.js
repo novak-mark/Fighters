@@ -92,7 +92,7 @@ function chooseCharacter(evt){
             let framesY = warriorStates[warriorstate].indexY;
             let healthbar = document.getElementById('P1healthbar');
             
-            Player1 = new Warrior(warriorHeight,warriorWidth,50,400,false,healthbar,hp,warriorSprite,warriorSpriteM,framesY,maxFrames,warriorstate,warriorStates);
+            Player1 = new Warrior(warriorHeight,warriorWidth,50,350,false,healthbar,hp,warriorSprite,warriorSpriteM,framesY,maxFrames,warriorstate,warriorStates);
             Player1.offset.x = warrioroffsetX;
             Player1.offset.y = warrioroffsetY;
             Player1.collisionbox = {width: 64, height: 120};
@@ -112,7 +112,6 @@ function chooseCharacter(evt){
             samuraiSprite.src  = "../resources/samurai.png";
             samuraiSpriteM.src = "../resources/samurai_M.png";
             //calculated with spritesheet.width / maxframes
-            console.log(samuraiSprite.width);
             let samuraiWidth =  Math.floor(samuraiSprite.width  / 8);
             let samuraiHeight = Math.floor(samuraiSprite.height / 8); 
             let samuraioffsetX = 80;
@@ -123,7 +122,7 @@ function chooseCharacter(evt){
             let P2framesY = samuraiStates[samuraistate].indexY;
             let P2healthbar = document.getElementById('P2healthbar');
             
-            Player2 = new Samurai(samuraiHeight,samuraiWidth,800,400,true,P2healthbar,P2hp,samuraiSprite,samuraiSpriteM,P2framesY,P2maxFrames,samuraistate,samuraiStates);
+            Player2 = new Samurai(samuraiHeight,samuraiWidth,800,350,true,P2healthbar,P2hp,samuraiSprite,samuraiSpriteM,P2framesY,P2maxFrames,samuraistate,samuraiStates);
             Player2.offset.x = samuraioffsetX;
             Player2.offset.y = samuraioffsetY;
             Player2.collisionbox = {width: 64, height: 120};
@@ -152,8 +151,8 @@ function initCanvas(){
     let select_charcter_menu = document.getElementById("selectchar");
     select_charcter_menu.style.display = "none";
     console.log(background.height)
-    canvas.width = 1920;
-    canvas.height = 1080;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
     canvas.style.width = '100%';
     canvas.style.height = '100%';
     ctx.scale(2, 2);
