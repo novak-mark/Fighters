@@ -19,15 +19,20 @@
     left: 32.4%;
     top: 14.5%;
 }
-#P1healthbar{
+
+#P1healthbar,#P1bar{
     position:absolute;
     display: none;
     width: 500px;
     height: 20%;
     top: 25px;
     left: 220px;
+}
+#P1healthbar{
     background-color: green;
-
+}
+#P1bar,#P2bar{
+    background-color: red;
 }
 #P1Icon{
     display: none;
@@ -40,15 +45,16 @@
     left: 58%;
     top: 1%;
 }
-#P2healthbar{
+#P2healthbar,#P2bar{
     position:absolute;
     display: none;
     width: 500px;
     height: 20%;
     top: 25px;
     left: 850px;
+}
+#P2healthbar{
     background-color: green;
-
 }
 #canvas{
     position: relative;

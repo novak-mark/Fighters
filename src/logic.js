@@ -164,6 +164,8 @@ function initCanvas(){
     //display the timer again before starting it.
     document.getElementById("timer").style.display = "flex";
     document.getElementById("P1healthbar").style.display ="inline";
+    document.getElementById("P1bar").style.display ="inline";
+    document.getElementById("P2bar").style.display ="inline";
     document.getElementById("P2healthbar").style.display = "flex";
     document.getElementById("P1Icon").style.display = "flex";
     document.getElementById("P2Icon").style.display = "flex";
