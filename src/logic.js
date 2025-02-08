@@ -17,6 +17,12 @@ const gravity = 1.10;
 let Player1 = null;
 let Player2 = null;
 
+let P1pos = {x: 50,  y: 350, flip: false};
+let P2pos = {x: 800, y: 350, flip: true};
+
+let P1hpbar = document.getElementById("P1healthbar");
+let P2hpbar = document.getElementById("P2healthbar");
+
 const FPS = 60;
 let interval = Math.floor(1000 / FPS);
 
@@ -51,6 +57,9 @@ function SwitchWindow(){
 
     select_charcter_menu.children[1].addEventListener("click",chooseCharacter);
     select_charcter_menu.children[1].value = "warrior";
+
+    select_charcter_menu.children[2].addEventListener("click",chooseCharacter);
+    select_charcter_menu.children[2].value = "samurai";
     /*
     canvas.width = 1920;
     canvas.height = 1080;
@@ -70,81 +79,81 @@ function AIOn(){
 function chooseCharacter(evt){
     switch(evt.currentTarget.value){
         case "warrior":
-            var warriorStates = {
-                idle: {frames: 10, indexY: 0, autoRepeat: true, interuptable: true},
-                run: {frames: 8, indexY: 1, autoRepeat: true, interuptable: true},
-                attack1: {frames: 7, indexY: 3, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 75, dmg: 100},
-                attack2: {frames: 7, indexY: 4, autoRepeat: false, interuptable: false, attackFrame: 2, cooldown: 300,dmg: 140},
-                hit: {frames: 3, indexY: 5, autoRepeat: false, interuptable: false},
-                death: {frames: 7, indexY:6, autoRepeat: false, interuptable: false}
-            };
-            let warriorSprite = new Image();
-            let warriorSpriteM = new Image();
-            warriorSprite.src  = "../resources/fantasy_waririor.png";
-            warriorSpriteM.src = "../resources/fantasy_waririor_M.png";
-            let warriorWidth  =  Math.floor(warriorSprite.width   / 10);
-            let warriorHeight = Math.floor(warriorSprite.width / 10);
-            let warrioroffsetX = 64;
-            let warrioroffsetY = 45;
-            let hp = 100;
-            let warriorstate = 'idle';
-            let maxFrames = warriorStates[warriorstate].frames;
-            let framesY = warriorStates[warriorstate].indexY;
-            let healthbar = document.getElementById('P1healthbar');
-            
-            Player1 = new Warrior(warriorHeight,warriorWidth,50,350,false,healthbar,hp,warriorSprite,warriorSpriteM,framesY,maxFrames,warriorstate,warriorStates);
-            Player1.offset.x = warrioroffsetX;
-            Player1.offset.y = warrioroffsetY;
-            Player1.collisionbox = {width: 64, height: 120};
-            Player1.attackbox = {offsetX: 60, offsetY: 0, width: 64, height: 120};
-
-            //create Player2
-            var samuraiStates = {
-                idle: {frames: 8, indexY: 4, autoRepeat: true, interuptable: true},
-                run: {frames: 8, indexY: 6, autoRepeat: true, interuptable: true},
-                attack1: {frames: 6, indexY: 0, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 50, dmg: 40},
-                attack2: {frames: 6, indexY: 1, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 80, dmg: 120},
-                hit: {frames: 4, indexY: 7, autoRepeat: false, interuptable: false},
-                death: {frames: 6, indexY: 2, autoRepeat: false, interuptable: false}
-            };
-            let samuraiSprite = new Image();
-            let samuraiSpriteM = new Image();
-            samuraiSprite.src  = "../resources/samurai.png";
-            samuraiSpriteM.src = "../resources/samurai_M.png";
-            //calculated with spritesheet.width / maxframes
-            let samuraiWidth =  Math.floor(samuraiSprite.width  / 8);
-            let samuraiHeight = Math.floor(samuraiSprite.height / 8); 
-            let samuraioffsetX = 80;
-            let samuraioffsetY = 65;
-            let P2hp = 100;
-            let samuraistate = 'idle';
-            let P2maxFrames = samuraiStates[samuraistate].frames;
-            let P2framesY = samuraiStates[samuraistate].indexY;
-            let P2healthbar = document.getElementById('P2healthbar');
-            
-            Player2 = new Samurai(samuraiHeight,samuraiWidth,800,350,true,P2healthbar,P2hp,samuraiSprite,samuraiSpriteM,P2framesY,P2maxFrames,samuraistate,samuraiStates);
-            Player2.offset.x = samuraioffsetX;
-            Player2.offset.y = samuraioffsetY;
-            Player2.collisionbox = {width: 64, height: 120};
-            Player2.attackbox = {offsetX: 115, offsetY: 15, width: 80, height: 64};
+            Player1 = createWarrior(P1pos,P1hpbar);
+            Player2 = createSamurai(P2pos,P2hpbar);
 
             break;
-        case "test2":
-            this.sprite.src = "../resources/fantasy_waririor.png";
-            this.states = 
-            [
-                {state:'idle',frames: 10, indexY: 5},
-                {state:'run',frames: 8, indexY: 7},
-                {state:'attack1',frames: 7, indexY: 0}
-            ]
-            this.width = 164;         
-            this.height = 164;
+        case "samurai":
+            Player1 = createSamurai(P1pos,P1hpbar);
+            Player2 = createWarrior(P2pos,P2hpbar);
             break;
     }
     //show the canvas onto the screen
     initCanvas();
 }
+function createSamurai(playerpos,healthbar){
+    //create Player2
+    var samuraiStates = {
+        idle: {frames: 8, indexY: 4, autoRepeat: true, interuptable: true},
+        run: {frames: 8, indexY: 6, autoRepeat: true, interuptable: true},
+        attack1: {frames: 6, indexY: 0, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 50, dmg: 40},
+        attack2: {frames: 6, indexY: 1, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 80, dmg: 120},
+        hit: {frames: 4, indexY: 7, autoRepeat: false, interuptable: false},
+        death: {frames: 6, indexY: 2, autoRepeat: false, interuptable: false}
+    };
+    let samuraiSprite = new Image();
+    let samuraiSpriteM = new Image();
+    samuraiSprite.src  = "../resources/samurai.png";
+    samuraiSpriteM.src = "../resources/samurai_M.png";
+    //calculated with spritesheet.width / maxframes
+    let samuraiWidth =  Math.floor(samuraiSprite.width  / 8);
+    let samuraiHeight = Math.floor(samuraiSprite.height / 8); 
+    let samuraioffsetX = 80;
+    let samuraioffsetY = 65;
+    let P2hp = 100;
+    let samuraistate = 'idle';
+    let P2maxFrames = samuraiStates[samuraistate].frames;
+    let P2framesY = samuraiStates[samuraistate].indexY;
 
+    
+    let player = new Samurai(samuraiHeight,samuraiWidth,playerpos.x,playerpos.y,playerpos.flip,healthbar,P2hp,samuraiSprite,samuraiSpriteM,P2framesY,P2maxFrames,samuraistate,samuraiStates);
+    player.offset.x = samuraioffsetX;
+    player.offset.y = samuraioffsetY;
+    player.collisionbox = {width: 64, height: 120};
+    player.attackbox = {offsetX: 115, offsetY: 15, width: 80, height: 64};
+    return player;
+}
+function createWarrior(playerpos,healthbar){
+    var warriorStates = {
+        idle: {frames: 10, indexY: 0, autoRepeat: true, interuptable: true},
+        run: {frames: 8, indexY: 1, autoRepeat: true, interuptable: true},
+        attack1: {frames: 7, indexY: 3, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 75, dmg: 100},
+        attack2: {frames: 7, indexY: 4, autoRepeat: false, interuptable: false, attackFrame: 2, cooldown: 300,dmg: 140},
+        hit: {frames: 3, indexY: 5, autoRepeat: false, interuptable: false},
+        death: {frames: 7, indexY:6, autoRepeat: false, interuptable: false}
+    };
+    let warriorSprite = new Image();
+    let warriorSpriteM = new Image();
+    warriorSprite.src  = "../resources/fantasy_waririor.png";
+    warriorSpriteM.src = "../resources/fantasy_waririor_M.png";
+    let warriorWidth  =  Math.floor(warriorSprite.width   / 10);
+    let warriorHeight = Math.floor(warriorSprite.width / 10);
+    let warrioroffsetX = 64;
+    let warrioroffsetY = 45;
+    let hp = 100;
+    let warriorstate = 'idle';
+    let maxFrames = warriorStates[warriorstate].frames;
+    let framesY = warriorStates[warriorstate].indexY;
+    
+    
+    let player = new Warrior(warriorHeight,warriorWidth,playerpos.x,playerpos.y,playerpos.flip,healthbar,hp,warriorSprite,warriorSpriteM,framesY,maxFrames,warriorstate,warriorStates);
+    player.offset.x = warrioroffsetX;
+    player.offset.y = warrioroffsetY;
+    player.collisionbox = {width: 64, height: 120};
+    player.attackbox = {offsetX: 60, offsetY: 0, width: 64, height: 120};
+
+    return player;
+}
 //remove the character select menu and display the canvas
 function initCanvas(){
     //hide the character select menu: (maybe better to remove it)
@@ -159,7 +168,6 @@ function initCanvas(){
     canvas.style.display='block';
     controller  = new Controls(document,Player1,Player2,ai);
     controller.init();
-    GameLoop();
     //display the timer again before starting it.
     document.getElementById("timer").style.display = "flex";
     document.getElementById("P1healthbar").style.display ="inline";
@@ -170,6 +178,8 @@ function initCanvas(){
     document.getElementById("P2Icon").style.display = "flex";
     timer();
     collider = new CollisionControler(Player1,Player2,canvas.width);
+    GameLoop();
+    
 }
 //exting game
 function exit(){
