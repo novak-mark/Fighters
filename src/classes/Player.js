@@ -16,7 +16,7 @@ export class Player{
         this.sprite = sprite;
         this.spriteM = spriteM;
         this.offset = {x: 0, y:0};
-        this.scale = 2;
+        this.scale = 4;
         this.collisionbox = {};
         this.attackbox = {};
         this.canAttack = true;

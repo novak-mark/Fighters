@@ -6,8 +6,8 @@ import { CollisionControler } from "./classes/CollisionControler.js";
 import { easySamurai } from "./functions/easyAi.js";
 
 // getting canvas element
-let canvas = document.getElementById('canvas');
-let ctx = canvas.getContext("2d");
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext("2d");
 canvas.style.border = '2px solid black';
 
 //global values
@@ -16,6 +16,9 @@ const framespeed = 12;
 const gravity = 1.10;
 let Player1 = null;
 let Player2 = null;
+
+let canvasWidth = screen.width;
+let canvasHeight = screen.height;
 
 let P1pos = {x: 50,  y: 350, flip: false};
 let P2pos = {x: 800, y: 350, flip: true};
@@ -37,6 +40,18 @@ document.getElementById("PlayervPlayer").addEventListener("click",SwitchWindow);
 document.getElementById("PlayervAi").addEventListener("click",AIOn);
 document.getElementById("exit").addEventListener("click",exit);
 
+window.addEventListener('resize',resizeCanvas);
+
+function resizeCanvas(){
+    canvasWidth = window.innerWidth;
+    canvasHeight = window.innerHeight;
+
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
+    //redraw
+    draw();
+}
 
 
 
@@ -159,13 +174,12 @@ function initCanvas(){
     //hide the character select menu: (maybe better to remove it)
     let select_charcter_menu = document.getElementById("selectchar");
     select_charcter_menu.style.display = "none";
-    console.log(background.height)
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
-    ctx.scale(2, 2);
+
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+    
     canvas.style.display='block';
+    resizeCanvas();
     controller  = new Controls(document,Player1,Player2,ai);
     controller.init();
     //display the timer again before starting it.
@@ -177,10 +191,11 @@ function initCanvas(){
     document.getElementById("P1Icon").style.display = "flex";
     document.getElementById("P2Icon").style.display = "flex";
     timer();
-    collider = new CollisionControler(Player1,Player2,canvas.width);
+    collider = new CollisionControler(Player1,Player2);
     GameLoop();
     
 }
+
 //exting game
 function exit(){
     self.close();
@@ -217,16 +232,16 @@ function draw(dt){
 
 //main game loop
 
-
 function GameLoop(currentTime){
     dt = currentTime - previousTime;
     dt = dt / interval;
     previousTime = currentTime;
+    console.log(Player2.x);
     if(controller instanceof Controls){
         controller.ControlHandler(dt);
     }
     if(collider instanceof CollisionControler){
-        collider.Collison();
+        collider.Collison(canvasWidth);
     }
     if(Player1.isDead == false){
         Player1.flipSprite(Player2.x);
