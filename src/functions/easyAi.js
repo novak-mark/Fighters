@@ -7,7 +7,7 @@ export function easySamurai(player1,player2,dt){
     let dst = Math.abs(player1.x - player2.x);
 
     if(player1.state == 'idle' || player1.state == 'run'){
-        if(dst > 150){
+        if(dst > 350){
             if(player2.flip){
                 player2.moveleft(0.25);
             }

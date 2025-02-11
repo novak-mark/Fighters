@@ -17,11 +17,13 @@ const gravity = 1.10;
 let Player1 = null;
 let Player2 = null;
 
-let canvasWidth = screen.width;
-let canvasHeight = screen.height;
+let canvasWidth = window.innerWidth;
+let canvasHeight = window.innerHeight;
 
-let P1pos = {x: 50,  y: 350, flip: false};
-let P2pos = {x: 800, y: 350, flip: true};
+let P1pos = {x: 50,  y: canvasHeight, flip: false};
+let P2pos = {x: canvasWidth - 50, y: canvasHeight, flip: true};
+
+
 
 let P1hpbar = document.getElementById("P1healthbar");
 let P2hpbar = document.getElementById("P2healthbar");
@@ -48,6 +50,10 @@ function resizeCanvas(){
 
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
+
+    //change players y to make sure they stay on the ground
+    Player1.y = canvasHeight - 250;
+    Player2.y = canvasHeight - 250;
 
     //redraw
     draw();
@@ -134,8 +140,8 @@ function createSamurai(playerpos,healthbar){
     let player = new Samurai(samuraiHeight,samuraiWidth,playerpos.x,playerpos.y,playerpos.flip,healthbar,P2hp,samuraiSprite,samuraiSpriteM,P2framesY,P2maxFrames,samuraistate,samuraiStates);
     player.offset.x = samuraioffsetX;
     player.offset.y = samuraioffsetY;
-    player.collisionbox = {width: 64, height: 120};
-    player.attackbox = {offsetX: 115, offsetY: 15, width: 80, height: 64};
+    player.collisionbox = {width: 130, height: 235};
+    player.attackbox = {offsetX: 220, offsetY: 50, width: 80, height: 120};
     return player;
 }
 function createWarrior(playerpos,healthbar){
@@ -164,8 +170,8 @@ function createWarrior(playerpos,healthbar){
     let player = new Warrior(warriorHeight,warriorWidth,playerpos.x,playerpos.y,playerpos.flip,healthbar,hp,warriorSprite,warriorSpriteM,framesY,maxFrames,warriorstate,warriorStates);
     player.offset.x = warrioroffsetX;
     player.offset.y = warrioroffsetY;
-    player.collisionbox = {width: 64, height: 120};
-    player.attackbox = {offsetX: 60, offsetY: 0, width: 64, height: 120};
+    player.collisionbox = {width: 120, height: 220};
+    player.attackbox = {offsetX: 140, offsetY: 50, width: 100, height: 120};
 
     return player;
 }
@@ -233,10 +239,10 @@ function draw(dt){
 //main game loop
 
 function GameLoop(currentTime){
+    console.log(Player1.y);
     dt = currentTime - previousTime;
     dt = dt / interval;
     previousTime = currentTime;
-    console.log(Player2.x);
     if(controller instanceof Controls){
         controller.ControlHandler(dt);
     }
@@ -249,7 +255,6 @@ function GameLoop(currentTime){
     if(Player2.isDead == false){
         Player2.flipSprite(Player1.x);
     }
-    Player1.groundcheck();
     
     //if AI is turned on then call the function for the AI.
     if(ai && Player2.isDead == false){

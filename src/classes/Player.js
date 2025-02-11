@@ -32,13 +32,6 @@ export class Player{
     jump(){
         this.y -= 10; 
     }
-    //check if the player is on the ground
-    groundcheck(){
-        if(this.y < this.startypos){
-            
-            this.y += gravity;
-        }
-    }
     takeDMG(amount){
         let new_HP = this.hp - amount;
         if(new_HP <= 0){
