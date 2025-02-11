@@ -1,6 +1,7 @@
 import { Player } from "./classes/Player.js";
 import { Warrior } from "./classes/Warrior.js";
 import { Samurai } from "./classes/Samurai.js";
+import { Girl    } from "./classes/Girl.js";
 import { Controls} from "./classes/Controls.js";
 import { CollisionControler } from "./classes/CollisionControler.js";
 import { easySamurai } from "./functions/easyAi.js";
@@ -81,6 +82,10 @@ function SwitchWindow(){
 
     select_charcter_menu.children[2].addEventListener("click",chooseCharacter);
     select_charcter_menu.children[2].value = "samurai";
+
+    select_charcter_menu.children[3].addEventListener("click",chooseCharacter);
+    select_charcter_menu.children[3].value = "girl";
+    
     /*
     canvas.width = 1920;
     canvas.height = 1080;
@@ -106,6 +111,10 @@ function chooseCharacter(evt){
             break;
         case "samurai":
             Player1 = createSamurai(P1pos,P1hpbar);
+            Player2 = createWarrior(P2pos,P2hpbar);
+            break;
+        case "girl":
+            Player1 = createGirl(P1pos,P1hpbar);
             Player2 = createWarrior(P2pos,P2hpbar);
             break;
     }
@@ -148,7 +157,7 @@ function createWarrior(playerpos,healthbar){
     var warriorStates = {
         idle: {frames: 10, indexY: 0, autoRepeat: true, interuptable: true},
         run: {frames: 8, indexY: 1, autoRepeat: true, interuptable: true},
-        attack1: {frames: 7, indexY: 3, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 75, dmg: 100},
+        attack1: {frames: 7, indexY: 3, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 75, dmg: 1},
         attack2: {frames: 7, indexY: 4, autoRepeat: false, interuptable: false, attackFrame: 2, cooldown: 300,dmg: 140},
         hit: {frames: 3, indexY: 5, autoRepeat: false, interuptable: false},
         death: {frames: 7, indexY:6, autoRepeat: false, interuptable: false}
@@ -170,6 +179,39 @@ function createWarrior(playerpos,healthbar){
     let player = new Warrior(warriorHeight,warriorWidth,playerpos.x,playerpos.y,playerpos.flip,healthbar,hp,warriorSprite,warriorSpriteM,framesY,maxFrames,warriorstate,warriorStates);
     player.offset.x = warrioroffsetX;
     player.offset.y = warrioroffsetY;
+    player.collisionbox = {width: 120, height: 220};
+    player.attackbox = {offsetX: 140, offsetY: 50, width: 100, height: 120};
+
+    return player;
+}
+function createGirl(playerpos,healthbar){
+    var girlstates = {
+        idle: {frames: 4, indexY: 2, autoRepeat: true, interuptable: true},
+        run: {frames: 10, indexY: 8, autoRepeat: true, interuptable: true},
+        attack1: {frames: 3, indexY: 3, autoRepeat: false, interuptable: false, attackFrame: 1, cooldown: 75, dmg: 100},
+        attack2: {frames: 5, indexY: 6, autoRepeat: false, interuptable: false, attackFrame: 3, cooldown: 300,dmg: 140},
+        attack3: {frames: 3, indexY: 7, autoRepeat: false, interuptable: false, attackFrame: 1, cooldown: 40,dmg: 4},
+        hit: {frames: 2, indexY: 1, autoRepeat: false, interuptable: false},
+        death: {frames: 7, indexY:6, autoRepeat: false, interuptable: false}
+    };
+    let sprite = new Image();
+    let spriteM = new Image();
+    sprite.src  = "../resources/girl.png";
+    spriteM.src = "../resources/girl_M.png";
+    //for some reason this values need to be like this otherwise it takes the wrong part
+    let girlWidth  =  96.2;
+    let girlHeight = 65;
+    let girloffsetX = 30;
+    let girlffsetY = 20;
+    let hp = 100;
+    let girlstate = 'idle';
+    let maxFrames = girlstates[girlstate].frames;
+    let framesY = girlstates[girlstate].indexY;
+    
+    
+    let player = new Girl(girlHeight,girlWidth,playerpos.x,playerpos.y,playerpos.flip,healthbar,hp,sprite,spriteM,framesY,maxFrames,girlstate,girlstates);
+    player.offset.x = girloffsetX;
+    player.offset.y = girlffsetY;
     player.collisionbox = {width: 120, height: 220};
     player.attackbox = {offsetX: 140, offsetY: 50, width: 100, height: 120};
 
