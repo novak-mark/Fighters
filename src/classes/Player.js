@@ -45,7 +45,7 @@ export class Player{
         }
         //decreasce the width of the hit players healthbar
         let ratio = this.hp / 100;
-        this.healthbar.style.width = (500 * ratio) + 'px';
+        this.healthbar.style.width = (34 * ratio) + '%';
     }
     //flip the sprite if need be
     flipSprite(dst_x){
