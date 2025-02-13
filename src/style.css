@@ -1,3 +1,8 @@
+@font-face{
+    font-family: okashi;
+    src: url('../resources/fonts/okashi.regular.ttf');
+}
+
 html,body{
     margin: 0 !important;
     padding: 0 !important;
@@ -6,6 +11,7 @@ html,body{
     height: 100%;
     background-image: url('../resources/bg3.gif');
     background-size: cover;
+    font-family: okashi;
 }
 .menu {
     position: absolute;
@@ -15,19 +21,67 @@ html,body{
     margin-inline: auto;
     width: fit-content;
 }
-.menu button{
-    display:block;
+.menu h2{
+    font-weight: bold;
+    font-size: 50px;
+    color: white;
+    
+
 }
-#container{
+#selectchar button,.menu button{
+  --button_radius: 0.75em;
+  --button_color: #e8e8e8;
+  --button_outline_color: #000000;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--button_radius);
+  background: var(--button_outline_color);
+
+  display: block;
+  box-sizing: border-box;
+  border: 2px solid var(--button_outline_color);
+  border-radius: var(--button_radius);
+  padding: 0.75em 1.5em;
+  background: var(--button_color);
+  color: var(--button_outline_color);
+  transform: translateY(-0.2em);
+  transition: transform 0.1s ease;
+  font-family: okashi;
+  color: red;
+}
+#selectchar button:hover, .menu button:hover{
+    transform: translateY(-0.33em);
+}
+#selectchar button:active, .menu button:active{
+    transform: translateY(0);
+}
+#selectchar{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 20%;
+    margin-inline: auto;
+    width: fit-content;
+}
+#selectchar h2{
+    font-weight: bold;
+    font-size: 50px;
+    color: white;
+    
+    
+}
+#container {
     position: relative;
 }
-#UI{
+#UI {
     position: absolute;
     width: 100%;
     left: 5.20%;
     z-index: 20;
 }
-#timer{
+#timer {
     position: absolute;
     display: none;
     height: 20px;
@@ -36,43 +90,23 @@ html,body{
     left: 44%;
     top: 14.5%;
 }
-
-#P1healthbar,#P1bar{
-    position:absolute;
-    display: none;
-    width: 34%;
-    height: 20%;
-    top: 14.5%;
-    left: 6.5%;
-}
-#P1healthbar{
-    background-color: green;
-}
-#P1bar,#P2bar{
-    background-color: red;
-}
-#P1Icon{
-    display: none;
-    border-radius: 50%;
-    margin-left: -5%;
-}
-#P2Icon{
+#P1healthbar, #P1bar, #P2healthbar, #P2bar {
     position: absolute;
     display: none;
-    border-radius: 50%;
-    left: 84%;
-    top: 1%;
-}
-#P2healthbar,#P2bar{
-    position:absolute;
-    display: none;
     width: 34%;
-    height: 20%;
-    top: 14.5%;
-    right: 16%;
+    height: 30px;
 }
-#P2healthbar{
+#P1healthbar, #P2healthbar {
     background-color: green;
+}
+#P1bar, #P2bar {
+    background-color: red;
+}
+#P1bar, #P1healthbar {
+    left: 2.5%;
+}
+#P2bar, #P2healthbar {
+    right: 15%;
 }
 #canvas{
     position: relative;

@@ -38,7 +38,7 @@ let dt = 0;
 let controller = null;
 let collider = null;
 //event listeners
-document.getElementById("PlayervPlayer").addEventListener("click",SwitchWindow);
+document.getElementById("PlayervPlayer").addEventListener("click",switchWindow);
 document.getElementById("PlayervAi").addEventListener("click",AIOn);
 document.getElementById("exit").addEventListener("click",exit);
 
@@ -66,7 +66,7 @@ function resizeCanvas(){
 let background = document.getElementById("backgroundimg");
 
 //function to hide main menu and display character selector
-function SwitchWindow(){
+function switchWindow(){
     let menu_elements = document.getElementsByClassName("menu");
     for(let i=0; i < menu_elements.length;i++){
         menu_elements[i].style.display = "none";
@@ -234,12 +234,10 @@ function initCanvas(){
     document.getElementById("P1healthbar").style.display ="inline";
     document.getElementById("P1bar").style.display ="inline";
     document.getElementById("P2bar").style.display ="inline";
-    document.getElementById("P2healthbar").style.display = "flex";
-    document.getElementById("P1Icon").style.display = "flex";
-    document.getElementById("P2Icon").style.display = "flex";
+    document.getElementById("P2healthbar").style.display = "inline";
     timer();
     collider = new CollisionControler(Player1,Player2);
-    GameLoop();
+    gameLoop();
     
 }
 
@@ -279,7 +277,7 @@ function draw(dt){
 
 //main game loop
 
-function GameLoop(currentTime){
+function gameLoop(currentTime){
     dt = currentTime - previousTime;
     dt = dt / interval;
     previousTime = currentTime;
@@ -307,10 +305,10 @@ function GameLoop(currentTime){
     Player2.update();
     draw(dt);
 
-    window.requestAnimationFrame(GameLoop);
+    window.requestAnimationFrame(gameLoop);
 
 }
-export function PlaySound(sound){
+export function playSound(sound){
     let audio = new Audio(sound);
     audio.play();
 

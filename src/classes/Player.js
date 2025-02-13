@@ -1,4 +1,4 @@
-import { PlaySound } from "../logic.js"
+import { playSound } from "../logic.js"
 const gravity = 0.6;
 const jumpStrength = -25;
 export class Player{
@@ -67,7 +67,7 @@ export class Player{
     }
     attack(enemyPlayer,dmg){
         console.log(dmg);
-        PlaySound("../resources/sound/hit.mp3");
+        playSound("../resources/sound/hit.mp3");
         enemyPlayer.updateState("hit");
 
 
