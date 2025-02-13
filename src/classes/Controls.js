@@ -60,11 +60,13 @@ export class Controls {
       controlMap["keyA"] = false;
       if (this.player1.states[this.player1.state].interuptable) {
         this.player1.updateState("idle");
+        this.player1.velocityX = 0;
       }
     } else if (e.code == "KeyD") {
       controlMap["keyD"] = false;
       if (this.player1.states[this.player1.state].interuptable) {
         this.player1.updateState("idle");
+        this.player1.velocityX = 0;
       }
     } else if (e.code == "Space") {
       controlMap["keySpace"] = false;
@@ -79,12 +81,14 @@ export class Controls {
       controlMap["keyLarrow"] = false;
       if (this.player2.states[this.player2.state].interuptable) {
         this.player2.updateState("idle");
+        this.player2.velocityX = 0;
       }
     } 
     else if (e.code == "ArrowRight" && this.ai == false) {
       controlMap["keyRarrow"] = false;
       if (this.player2.states[this.player2.state].interuptable) {
         this.player2.updateState("idle");
+        this.player2.velocityX = 0;
       }
     } 
     else if (e.code == "ArrowUp" && this.ai == false) {
@@ -103,16 +107,16 @@ export class Controls {
     //disable movement if this.player is attacking
     if (this.player1.states[this.player1.state].interuptable) {
       if (controlMap["keyA"]) {
-        this.player1.moveleft(dt);
+        this.player1.moveLeft(dt);
         this.player1.updateState("run");
       } 
       else if (controlMap["keyD"]) {
-        this.player1.moveright(dt);
+        this.player1.moveRight(dt);
         this.player1.updateState("run");
       } 
       else if (controlMap["keySpace"]) {
-        this.player1.jump();
         this.player1.updateState("jump");
+        this.player1.jump(dt);
       } 
       else if (controlMap["key1"] && this.player1.canAttack) {
         PlaySound("../resources/sound/sword.mp3");
@@ -125,18 +129,18 @@ export class Controls {
     }
     if(this.player2.states[this.player2.state].interuptable){
       if(controlMap["keyLarrow"]){
-        this.player2.moveleft(dt);
+        this.player2.moveLeft(dt);
         this.player2.updateState("run");
       }
-      if(controlMap["keyRarrow"]){
-        this.player2.moveright(dt);
+      else if(controlMap["keyRarrow"]){
+        this.player2.moveRight(dt);
         this.player2.updateState("run");
       }
-      if(controlMap["keyNum1"] && this.player2.canAttack){
+      else if(controlMap["keyNum1"] && this.player2.canAttack){
         PlaySound("../resources/sound/katana.mp3");
         this.player2.updateState("attack1");
       }
-      if(controlMap["keyNum2"] && this.player2.canAttack){
+      else if(controlMap["keyNum2"] && this.player2.canAttack){
         PlaySound("../resources/sound/katana.mp3");
         this.player2.updateState("attack2");
       }

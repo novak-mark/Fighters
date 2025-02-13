@@ -1,6 +1,6 @@
 import { PlaySound } from "../logic.js"
-
-
+const gravity = 0.6;
+const jumpStrength = -25;
 export class Player{
 
     constructor(height,width,x,y,flip,healthbar,hp,sprite,spriteM){
@@ -21,16 +21,25 @@ export class Player{
         this.attackbox = {};
         this.canAttack = true;
         this.isDead = false;
+        this.velocityX = 0;
+        this.velocityY = 0;
+        this.onGround = true;
     }
     //functions for player movement
-    moveright(dt){        
-        this.x += 3 * dt;
+    moveRight(dt){        
+        this.velocityX = 3 * dt;
     }
-    moveleft(dt){
-        this.x -= 3 * dt;
+    moveLeft(dt){
+        this.velocityX = -3 * dt;
     }
     jump(){
-        this.y -= 10; 
+        if(this.onGround){
+            this.velocityY = jumpStrength;
+            this.onGround = false;
+        } 
+    }
+    groundCheck(){
+        console.log("burek");
     }
     takeDMG(amount){
         let new_HP = this.hp - amount;
@@ -82,5 +91,20 @@ export class Player{
             hit = true;
         }
         return hit;
+    }
+    update(){
+        this.x += this.velocityX;
+
+        this.velocityY += gravity;
+        this.y += this.velocityY; 
+        let ground = window.innerHeight - 250;
+        if(this.y >= ground){
+            console.log("halo");
+            this.y = ground;
+            this.velocityY = 0;
+            this.onGround = true;
+            
+        }
+         
     }
 }

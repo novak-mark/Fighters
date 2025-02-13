@@ -1,7 +1,7 @@
 import { Player } from "./classes/Player.js";
 import { Warrior } from "./classes/Warrior.js";
 import { Samurai } from "./classes/Samurai.js";
-import { Girl    } from "./classes/Girl.js";
+import { Knight    } from "./classes/Knight.js";
 import { Controls} from "./classes/Controls.js";
 import { CollisionControler } from "./classes/CollisionControler.js";
 import { easySamurai } from "./functions/easyAi.js";
@@ -13,8 +13,7 @@ canvas.style.border = '2px solid black';
 
 //global values
 let ai = false;
-const framespeed = 12;
-const gravity = 1.10;
+
 let Player1 = null;
 let Player2 = null;
 
@@ -114,7 +113,7 @@ function chooseCharacter(evt){
             Player2 = createWarrior(P2pos,P2hpbar);
             break;
         case "knight":
-            Player1 = createGirl(P1pos,P1hpbar);
+            Player1 = createKnight(P1pos,P1hpbar);
             Player2 = createWarrior(P2pos,P2hpbar);
             break;
     }
@@ -126,8 +125,8 @@ function createSamurai(playerpos,healthbar){
     var samuraiStates = {
         idle: {frames: 8, indexY: 4, autoRepeat: true, interuptable: true},
         run: {frames: 8, indexY: 6, autoRepeat: true, interuptable: true},
-        attack1: {frames: 6, indexY: 0, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 50, dmg: 40},
-        attack2: {frames: 6, indexY: 1, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 80, dmg: 120},
+        attack1: {frames: 6, indexY: 0, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 50, dmg: 10},
+        attack2: {frames: 6, indexY: 1, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 80, dmg: 30},
         hit: {frames: 4, indexY: 7, autoRepeat: false, interuptable: false},
         death: {frames: 6, indexY: 2, autoRepeat: false, interuptable: false}
     };
@@ -157,10 +156,11 @@ function createWarrior(playerpos,healthbar){
     var warriorStates = {
         idle: {frames: 10, indexY: 0, autoRepeat: true, interuptable: true},
         run: {frames: 8, indexY: 1, autoRepeat: true, interuptable: true},
-        attack1: {frames: 7, indexY: 3, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 75, dmg: 1},
-        attack2: {frames: 7, indexY: 4, autoRepeat: false, interuptable: false, attackFrame: 2, cooldown: 300,dmg: 140},
+        attack1: {frames: 7, indexY: 3, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 75, dmg: 20},
+        attack2: {frames: 7, indexY: 4, autoRepeat: false, interuptable: false, attackFrame: 2, cooldown: 300,dmg: 40},
         hit: {frames: 3, indexY: 5, autoRepeat: false, interuptable: false},
-        death: {frames: 7, indexY:6, autoRepeat: false, interuptable: false}
+        death: {frames: 7, indexY: 6, autoRepeat: false, interuptable: false},
+        jump: {frames: 1, indexY: 2, autoRepeat: false, interuptable: false}
     };
     let warriorSprite = new Image();
     let warriorSpriteM = new Image();
@@ -184,12 +184,12 @@ function createWarrior(playerpos,healthbar){
 
     return player;
 }
-function createGirl(playerpos,healthbar){
+function createKnight(playerpos,healthbar){
     var girlstates = {
         idle: {frames: 11, indexY: 4, autoRepeat: true, interuptable: true},
         run: {frames: 8, indexY: 6, autoRepeat: true, interuptable: true},
         attack1: {frames: 7, indexY: 0, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 75, dmg: 10},
-        attack2: {frames: 7, indexY: 1, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 300,dmg: 4},
+        attack2: {frames: 7, indexY: 1, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 300,dmg: 40},
         hit: {frames: 4, indexY: 7, autoRepeat: false, interuptable: false},
         death: {frames: 11, indexY: 2, autoRepeat: false, interuptable: false}
     };
@@ -208,7 +208,7 @@ function createGirl(playerpos,healthbar){
     let framesY = girlstates[girlstate].indexY;
     
     
-    let player = new Girl(girlHeight,girlWidth,playerpos.x,playerpos.y,playerpos.flip,healthbar,hp,sprite,spriteM,framesY,maxFrames,girlstate,girlstates);
+    let player = new Knight(girlHeight,girlWidth,playerpos.x,playerpos.y,playerpos.flip,healthbar,hp,sprite,spriteM,framesY,maxFrames,girlstate,girlstates);
     player.offset.x = girloffsetX;
     player.offset.y = girlffsetY;
     player.collisionbox = {width: 120, height: 220};
@@ -280,7 +280,6 @@ function draw(dt){
 //main game loop
 
 function GameLoop(currentTime){
-    console.log(Player1.y);
     dt = currentTime - previousTime;
     dt = dt / interval;
     previousTime = currentTime;
@@ -304,6 +303,8 @@ function GameLoop(currentTime){
     if(Player1.isDead || Player2.isDead){
         gameOver(Player1.isDead);
     }
+    Player1.update();
+    Player2.update();
     draw(dt);
 
     window.requestAnimationFrame(GameLoop);

@@ -9,10 +9,10 @@ export function easySamurai(player1,player2,dt){
     if(player1.state == 'idle' || player1.state == 'run'){
         if(dst > 350){
             if(player2.flip){
-                player2.moveleft(0.25);
+                player2.moveLeft(0.25);
             }
             else {
-                player2.moveright(0.25);
+                player2.moverRight(0.25);
             }
             player2.updateState("run");
         }
@@ -24,14 +24,14 @@ export function easySamurai(player1,player2,dt){
             }
             else {
                 //after attack move back
-                player2.moveright(0.25);
+                player2.moveRight(0.25);
                 player2.updateState("run");
             }
 
         }
     }
     if(player1.state == 'attack1' && dst < 200){
-        player2.moveright(0.25);
+        player2.moveRight(0.25);
         player2.updateState("run");
     }
 }
