@@ -3,7 +3,7 @@ const gravity = 0.6;
 const jumpStrength = -25;
 export class Player{
 
-    constructor(height,width,x,y,flip,healthbar,hp,sprite,spriteM){
+    constructor(height,width,x,y,flip,healthbar,hp,sprite,spriteM,offset,collisionBox,attackBox){
         this.height = height;
         this.width = width;
         this.x = x;
@@ -15,10 +15,12 @@ export class Player{
         //store the spritesheets and mirrored spritesheet for the player
         this.sprite = sprite;
         this.spriteM = spriteM;
-        this.offset = {x: 0, y:0};
+        this.offset = offset;
         this.scale = 4;
-        this.collisionbox = {};
-        this.attackbox = {};
+        this.collisionBox = collisionBox;
+        this.attackBox = attackBox;
+
+
         this.canAttack = true;
         this.isDead = false;
         this.velocityX = 0;
@@ -82,10 +84,10 @@ export class Player{
             direction = -1;
         }
         
-        if( this.x + (this.attackbox.offsetX * direction) < enemyPlayer.x + enemyPlayer.collisionbox.width &&
-            this.x + (this.attackbox.offsetX * direction) + this.attackbox.width > enemyPlayer.x &&
-            this.y + this.attackbox.offsetY < enemyPlayer.y + enemyPlayer.collisionbox.height &&
-            this.y + this.attackbox.offsetY + this.attackbox.height > enemyPlayer.y && 
+        if( this.x + (this.attackBox.offsetX * direction) < enemyPlayer.x + enemyPlayer.collisionBox.width &&
+            this.x + (this.attackBox.offsetX * direction) + this.attackBox.width > enemyPlayer.x &&
+            this.y + this.attackBox.offsetY < enemyPlayer.y + enemyPlayer.collisionBox.height &&
+            this.y + this.attackBox.offsetY + this.attackBox.height > enemyPlayer.y && 
             enemyPlayer.isDead == false 
         ){
             hit = true;

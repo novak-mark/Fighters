@@ -1,7 +1,4 @@
-import { Player } from "./classes/Player.js";
-import { Warrior } from "./classes/Warrior.js";
-import { Samurai } from "./classes/Samurai.js";
-import { Knight    } from "./classes/Knight.js";
+import {Fighter} from "./classes/Fighter.js";
 import { Controls} from "./classes/Controls.js";
 import { CollisionControler } from "./classes/CollisionControler.js";
 import { easySamurai } from "./functions/easyAi.js";
@@ -20,8 +17,7 @@ let Player2 = null;
 let canvasWidth = window.innerWidth;
 let canvasHeight = window.innerHeight;
 
-let P1pos = {x: 50,  y: canvasHeight, flip: false};
-let P2pos = {x: canvasWidth - 50, y: canvasHeight, flip: true};
+
 
 
 
@@ -102,58 +98,13 @@ function AIOn(){
 }
 //character chooser for P1
 function chooseCharacter(evt){
-    switch(evt.currentTarget.value){
-        case "warrior":
-            Player1 = createWarrior(P1pos,P1hpbar);
-            Player2 = createSamurai(P2pos,P2hpbar);
+    //starting valuables for players
+    let P1init = {x: 50,  y: canvasHeight, flip: false};
+    let P2init = {x: canvasWidth - 50, y: canvasHeight, flip: true};
 
-            break;
-        case "samurai":
-            Player1 = createSamurai(P1pos,P1hpbar);
-            Player2 = createWarrior(P2pos,P2hpbar);
-            break;
-        case "knight":
-            Player1 = createKnight(P1pos,P1hpbar);
-            Player2 = createWarrior(P2pos,P2hpbar);
-            break;
-    }
-    //show the canvas onto the screen
-    initCanvas();
-}
-function createSamurai(playerpos,healthbar){
-    //create Player2
-    var samuraiStates = {
-        idle: {frames: 8, indexY: 4, autoRepeat: true, interuptable: true},
-        run: {frames: 8, indexY: 6, autoRepeat: true, interuptable: true},
-        attack1: {frames: 6, indexY: 0, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 50, dmg: 10},
-        attack2: {frames: 6, indexY: 1, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 80, dmg: 30},
-        hit: {frames: 4, indexY: 7, autoRepeat: false, interuptable: false},
-        death: {frames: 6, indexY: 2, autoRepeat: false, interuptable: false}
-    };
-    let samuraiSprite = new Image();
-    let samuraiSpriteM = new Image();
-    samuraiSprite.src  = "../resources/samurai.png";
-    samuraiSpriteM.src = "../resources/samurai_M.png";
-    //calculated with spritesheet.width / maxframes
-    let samuraiWidth =  Math.floor(samuraiSprite.width  / 8);
-    let samuraiHeight = Math.floor(samuraiSprite.height / 8); 
-    let samuraioffsetX = 80;
-    let samuraioffsetY = 65;
-    let P2hp = 100;
-    let samuraistate = 'idle';
-    let P2maxFrames = samuraiStates[samuraistate].frames;
-    let P2framesY = samuraiStates[samuraistate].indexY;
-
-    
-    let player = new Samurai(samuraiHeight,samuraiWidth,playerpos.x,playerpos.y,playerpos.flip,healthbar,P2hp,samuraiSprite,samuraiSpriteM,P2framesY,P2maxFrames,samuraistate,samuraiStates);
-    player.offset.x = samuraioffsetX;
-    player.offset.y = samuraioffsetY;
-    player.collisionbox = {width: 130, height: 235};
-    player.attackbox = {offsetX: 220, offsetY: 50, width: 80, height: 120};
-    return player;
-}
-function createWarrior(playerpos,healthbar){
-    var warriorStates = {
+    //load variables
+    //warrior
+    let warriorStates = {
         idle: {frames: 10, indexY: 0, autoRepeat: true, interuptable: true},
         run: {frames: 8, indexY: 1, autoRepeat: true, interuptable: true},
         attack1: {frames: 7, indexY: 3, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 75, dmg: 20},
@@ -164,28 +115,39 @@ function createWarrior(playerpos,healthbar){
     };
     let warriorSprite = new Image();
     let warriorSpriteM = new Image();
-    warriorSprite.src  = "../resources/fantasy_waririor.png";
-    warriorSpriteM.src = "../resources/fantasy_waririor_M.png";
-    let warriorWidth  =  Math.floor(warriorSprite.width   / 10);
-    let warriorHeight = Math.floor(warriorSprite.width / 10);
-    let warrioroffsetX = 64;
-    let warrioroffsetY = 45;
-    let hp = 100;
-    let warriorstate = 'idle';
-    let maxFrames = warriorStates[warriorstate].frames;
-    let framesY = warriorStates[warriorstate].indexY;
-    
-    
-    let player = new Warrior(warriorHeight,warriorWidth,playerpos.x,playerpos.y,playerpos.flip,healthbar,hp,warriorSprite,warriorSpriteM,framesY,maxFrames,warriorstate,warriorStates);
-    player.offset.x = warrioroffsetX;
-    player.offset.y = warrioroffsetY;
-    player.collisionbox = {width: 120, height: 220};
-    player.attackbox = {offsetX: 140, offsetY: 50, width: 100, height: 120};
+    warriorSprite.src  = "./resources/sprites/fantasy_waririor.png";
 
-    return player;
-}
-function createKnight(playerpos,healthbar){
-    var girlstates = {
+    warriorSpriteM.src = "./resources/sprites/fantasy_waririor_M.png";
+    console.log(warriorSprite);
+    const warrior0ffsetX = 64;
+    const warriorOffsetY = 45;
+    const warriorCollisionBox = {width: 120, height: 220};
+    const warriorAttackBox = {offsetX: 140, offsetY: 50, width: 100, height: 120};
+
+    //Samurai
+    var samuraiStates = {
+        idle: {frames: 8, indexY: 4, autoRepeat: true, interuptable: true},
+        run: {frames: 8, indexY: 6, autoRepeat: true, interuptable: true},
+        attack1: {frames: 6, indexY: 0, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 50, dmg: 10},
+        attack2: {frames: 6, indexY: 1, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 80, dmg: 30},
+        hit: {frames: 4, indexY: 7, autoRepeat: false, interuptable: false},
+        death: {frames: 6, indexY: 2, autoRepeat: false, interuptable: false}
+    };
+    let samuraiSprite = new Image();
+    let samuraiSpriteM = new Image();
+    samuraiSprite.src  = "./resources/sprites/samurai.png";
+    samuraiSpriteM.src = "./resources/sprites/samurai_M.png";
+    
+   
+    const samuraiOffsetX = 80;
+    const samuraiOffsetY = 65;
+  
+    
+    const samuraiCollisionBox = {width: 130, height: 235};
+    const samuraiAttackBox = {offsetX: 220, offsetY: 50, width: 80, height: 120};
+
+    //knight
+    var knightStates = {
         idle: {frames: 11, indexY: 4, autoRepeat: true, interuptable: true},
         run: {frames: 8, indexY: 6, autoRepeat: true, interuptable: true},
         attack1: {frames: 7, indexY: 0, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 75, dmg: 10},
@@ -193,28 +155,102 @@ function createKnight(playerpos,healthbar){
         hit: {frames: 4, indexY: 7, autoRepeat: false, interuptable: false},
         death: {frames: 11, indexY: 2, autoRepeat: false, interuptable: false}
     };
-    let sprite = new Image();
-    let spriteM = new Image();
-    sprite.src  = "../resources/girl.png";
-    spriteM.src = "../resources/girl_M.png";
-    //for some reason this values need to be like this otherwise it takes the wrong part
-    let girlWidth  =  Math.floor(sprite.width /11);
-    let girlHeight = Math.floor(sprite.height / 8);
-    let girloffsetX = 85;
-    let girlffsetY =  60;
-    let hp = 100;
-    let girlstate = 'idle';
-    let maxFrames = girlstates[girlstate].frames;
-    let framesY = girlstates[girlstate].indexY;
+    let knightSprite = new Image();
+    let knightSpriteM = new Image();
+    knightSprite.src  = "./resources/sprites/knight.png";
+    knightSpriteM.src = "./resources/sprites/knight_M.png";
+    const knightOffsetX = 85;
+    const knightOffsetY =  60;
+   
+    const knightCollisionBox = {width: 120, height: 220};
+    const knightAttackBox = {offsetX: 200, offsetY: 50, width: 100, height: 120};
+
+
+
+    let warriorVar = loadFighter(warriorStates,warriorSprite,warriorSpriteM,10,7,warrior0ffsetX,warriorOffsetY,warriorCollisionBox, warriorAttackBox);
+    let samuraiVar = loadFighter(samuraiStates,samuraiSprite,samuraiSpriteM, 8,8,samuraiOffsetX,samuraiOffsetY, samuraiCollisionBox, samuraiAttackBox);
+    let knightVar  = loadFighter(knightStates,knightSprite, knightSpriteM,  11,8,knightOffsetX,knightOffsetY, knightCollisionBox, knightAttackBox); 
+
+    let rnd = Math.floor(Math.random()*2);
     
     
-    let player = new Knight(girlHeight,girlWidth,playerpos.x,playerpos.y,playerpos.flip,healthbar,hp,sprite,spriteM,framesY,maxFrames,girlstate,girlstates);
-    player.offset.x = girloffsetX;
-    player.offset.y = girlffsetY;
-    player.collisionbox = {width: 120, height: 220};
-    player.attackbox = {offsetX: 200, offsetY: 50, width: 100, height: 120};
+    switch(evt.currentTarget.value){
+        case "warrior":
+            Player2 = createFighter(P2init,P2hpbar,warriorVar);
+            Player1 = createFighter(P1init,P1hpbar,warriorVar);
+           
+            break;
+        case "samurai":
+            Player1 = createFighter(P1init,P1hpbar,samuraiVar);
+            if(rnd == 0){
+                Player2 = createFighter(P2init,P2hpbar,warriorVar);
+            }
+            else {
+                Player2 = createFighter(P2init,P2hpbar,knightVar);
+            }
+            break;
+        case "knight":
+            Player1 = createFighter(P1init,P1hpbar,knightVar);
+            if(rnd == 0){
+                Player2 = createFighter(P2init,P2hpbar,samuraiVar);
+            }
+            else {
+                Player2 = createFighter(P2init,P2hpbar, warriorVar);
+            }
+            break;
+    }
+    //show the canvas onto the screen
+    initCanvas();
+}
+function createFighter(playerPos,healthbar,fighter){
+
+    let player = new Fighter(
+      fighter.height,
+      fighter.width,
+      playerPos.x,
+      playerPos.y,
+      playerPos.flip,
+      healthbar,
+      fighter.hp,
+      fighter.sprite,
+      fighter.spriteM,
+      fighter.offset,
+      fighter.collisionBox,
+      fighter.attackBox,
+      fighter.framesY,
+      fighter.maxFrames,
+      fighter.state,
+      fighter.states
+    );
 
     return player;
+}
+function loadFighter(states,sprite,spriteM,width,height,offsetX,offsetY,collisionBox,attackBox){
+    
+    let fighterWidth  =  Math.floor(sprite.width   / width);
+    let fighterHeight = Math.floor(sprite.height / height);
+  
+    let hp = 100;
+    let state = 'idle';
+    let maxFrames = states[state].frames;
+    let framesY =   states[state].indexY;
+    
+    let fighterVar = 
+    {
+        states:  states,
+        state:   state,
+        sprite:  sprite,
+        spriteM: spriteM,
+        width:   fighterWidth,
+        height:  fighterHeight,
+        offset:   {x: offsetX, y: offsetY},
+        collisionBox: collisionBox,
+        attackBox:    attackBox,
+        maxFrames:    maxFrames,
+        framesY:      framesY,
+        hp:           hp
+    };
+    return fighterVar;
 }
 //remove the character select menu and display the canvas
 function initCanvas(){
@@ -230,11 +266,13 @@ function initCanvas(){
     controller  = new Controls(document,Player1,Player2,ai);
     controller.init();
     //display the timer again before starting it.
+
     document.getElementById("timer").style.display = "flex";
-    document.getElementById("P1healthbar").style.display ="inline";
-    document.getElementById("P1bar").style.display ="inline";
-    document.getElementById("P2bar").style.display ="inline";
+    document.getElementById("P1healthbar").style.display = "inline";
+    document.getElementById("P1bar").style.display = "inline";
     document.getElementById("P2healthbar").style.display = "inline";
+    document.getElementById("P2bar").style.display = "inline";
+    
     timer();
     collider = new CollisionControler(Player1,Player2);
     gameLoop();

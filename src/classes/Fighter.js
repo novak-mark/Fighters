@@ -2,17 +2,22 @@ import { Player } from "./Player.js";
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext("2d");
 let P1framesC = 0;
-const framespeed = 12;
-export class Warrior extends Player
+const framespeed = 11;
+export class Fighter extends Player
 {
-    constructor(height,width,x,y,flip,healthbar,hp,sprite,spriteM,framesY,maxFrames,state,states){
-        super(height,width,x,y,flip,healthbar,hp,sprite,spriteM);
+    constructor(height,width,x,y,flip,healthbar,hp,sprite,spriteM,offset,collisionBox,attackBox,
+        framesY,maxFrames,state,states){
+
+        super(height,width,x,y,flip,healthbar,hp,sprite,spriteM,offset,collisionBox,attackBox);
         this.framesY = framesY;
         this.maxFrames = maxFrames;
         this.state = state;
         this.states = states;
         this.framesX = 0;
         this.cooldownTime = 0;  
+
+        
+
     }
     draw(enemyPlayer,dt){
         if(this.canAttack && this.framesX == this.states[this.state].attackFrame){
@@ -31,7 +36,7 @@ export class Warrior extends Player
             }
         }
         ctx.fillStyle = 'red';
-        ctx.fillRect(this.x,this.y,this.collisionbox.width,this.collisionbox.height);
+        ctx.fillRect(this.x,this.y,this.collisionBox.width,this.collisionBox.height);
         //check if we need to flip the spritesheet
         if(this.isDead == false){
             //this.flipSprite(player2.x);
@@ -41,13 +46,13 @@ export class Warrior extends Player
             ctx.drawImage(this.sprite,this.width*this.framesX,this.height*this.framesY,this.width,this.height, //src
                 this.x-(this.offset.x*this.scale),this.y-(this.offset.y*this.scale),this.width*this.scale,this.height*this.scale);
             ctx.fillStyle = 'black';
-            ctx.fillRect(this.x + this.attackbox.offsetX, this.y + this.attackbox.offsetY,this.attackbox.width,this.attackbox.height);
+            ctx.fillRect(this.x + this.attackBox.offsetX, this.y + this.attackBox.offsetY,this.attackBox.width,this.attackBox.height);
         }
         else {
             ctx.drawImage(this.spriteM,(this.spriteM.width-this.width) - (this.width*this.framesX),this.height*this.framesY,this.width,this.height, //src
                 this.x-(this.offset.x*this.scale),this.y-(this.offset.y*this.scale),this.width*this.scale,this.height*this.scale);
             ctx.fillStyle = 'black';
-            ctx.fillRect(this.x - this.attackbox.offsetX, this.y + this.attackbox.offsetY,this.attackbox.width,this.attackbox.height);
+            ctx.fillRect(this.x - this.attackBox.offsetX, this.y + this.attackBox.offsetY,this.attackBox.width,this.attackBox.height);
         }
         //animation cycle
         if(P1framesC % framespeed == 0){

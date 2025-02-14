@@ -2,8 +2,8 @@
 <html>
 <head>
 <title> Fighters </title>
-<script type="module" src="logic.js"> </script>
-<link rel="stylesheet" href="style.css">
+<script type="module" src="src/logic.js"> </script>
+<link rel="stylesheet" href="src/style.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
@@ -23,23 +23,24 @@
         <button id="samurai"> Samurai   </button>
         <button id="knight">  Knight    </button>
     </div>
-    <div id="container">
         <div id="UI">
             <div id="P1bar"></div>
             <div id="P1healthbar"></div>
 
-            <div id="P2bar"></div>
-            <div id="P2healthbar"></div>
+            <div id="P2bar"> </div>
+            <div id="P2healthbar"> </div>
 
             <div id="timer">
                 0
             </div>
         </div>
+    <div id="container">
         <span id="gameovertxt"></span>
         <canvas id="canvas" style='display:none'></canvas>
-        <img src="../resources/bg2.gif" id="backgroundimg" style="display: none"></img>
+        <img src="./resources/bg2.gif" id="backgroundimg" style="display: none"></img>
         
         
 	</div>
+    
 </body>
 </html>
