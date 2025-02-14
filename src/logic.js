@@ -176,8 +176,14 @@ function chooseCharacter(evt){
     
     switch(evt.currentTarget.value){
         case "warrior":
-            Player2 = createFighter(P2init,P2hpbar,warriorVar);
             Player1 = createFighter(P1init,P1hpbar,warriorVar);
+
+            if(rnd == 0){
+                Player2 = createFighter(P2init,P2hpbar,samuraiVar);
+            }
+            else {
+                Player2 = createFighter(P2init,P2hpbar,knightVar);
+            }
            
             break;
         case "samurai":
@@ -229,6 +235,7 @@ function loadFighter(states,sprite,spriteM,width,height,offsetX,offsetY,collisio
     
     let fighterWidth  =  Math.floor(sprite.width   / width);
     let fighterHeight = Math.floor(sprite.height / height);
+
   
     let hp = 100;
     let state = 'idle';

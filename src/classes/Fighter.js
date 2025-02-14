@@ -1,8 +1,7 @@
 import { Player } from "./Player.js";
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext("2d");
-let P1framesC = 0;
-const framespeed = 11;
+
 export class Fighter extends Player
 {
     constructor(height,width,x,y,flip,healthbar,hp,sprite,spriteM,offset,collisionBox,attackBox,
@@ -15,6 +14,9 @@ export class Fighter extends Player
         this.states = states;
         this.framesX = 0;
         this.cooldownTime = 0;  
+
+        this.framespeed = 10;
+        this.framesC = 0;
 
         
 
@@ -55,7 +57,7 @@ export class Fighter extends Player
             ctx.fillRect(this.x - this.attackBox.offsetX, this.y + this.attackBox.offsetY,this.attackBox.width,this.attackBox.height);
         }
         //animation cycle
-        if(P1framesC % framespeed == 0){
+        if(this.framesC % this.framespeed == 0){
             if(this.framesX < this.maxFrames - 1){
                 this.framesX++;
             }
@@ -71,7 +73,7 @@ export class Fighter extends Player
                 }
             }
         }
-        P1framesC++;
+        this.framesC++;
     }
     updateState(state){
             
