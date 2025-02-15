@@ -1,7 +1,7 @@
 import {Fighter} from "./classes/Fighter.js";
 import { Controls} from "./classes/Controls.js";
 import { CollisionControler } from "./classes/CollisionControler.js";
-import { easySamurai } from "./functions/easyAi.js";
+import { SamuraiAI  } from "./classes/AI.js";
 
 // getting canvas element
 const canvas = document.getElementById('canvas');
@@ -10,6 +10,7 @@ canvas.style.border = '2px solid black';
 
 //global values
 let ai = false;
+let player2AI;
 
 let Player1 = null;
 let Player2 = null;
@@ -81,20 +82,12 @@ function switchWindow(){
     select_charcter_menu.children[3].addEventListener("click",chooseCharacter);
     select_charcter_menu.children[3].value = "knight";
     
-    /*
-    canvas.width = 1920;
-    canvas.height = 1080;
-    canvas.style.width = '1920px';
-    canvas.style.height = '1080px'
-    ctx.scale(2, 2);
-    canvas.style.display='block';
-    */
     
 }
 
 function AIOn(){
     ai = true;
-    SwitchWindow(); // go to the initilazion proces of the game with ai turned on (default off)
+    switchWindow(); // go to the initilazion proces of the game with ai turned on (default off)
 }
 //character chooser for P1
 function chooseCharacter(evt){
@@ -108,7 +101,7 @@ function chooseCharacter(evt){
         idle: {frames: 10, indexY: 0, autoRepeat: true, interuptable: true},
         run: {frames: 8, indexY: 1, autoRepeat: true, interuptable: true},
         attack1: {frames: 7, indexY: 3, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 75, dmg: 20},
-        attack2: {frames: 7, indexY: 4, autoRepeat: false, interuptable: false, attackFrame: 2, cooldown: 300,dmg: 40},
+        attack2: {frames: 7, indexY: 4, autoRepeat: false, interuptable: false, attackFrame: 2, cooldown: 150,dmg: 40},
         hit: {frames: 3, indexY: 5, autoRepeat: false, interuptable: false},
         death: {frames: 7, indexY: 6, autoRepeat: false, interuptable: false},
         jump: {frames: 1, indexY: 2, autoRepeat: false, interuptable: false}
@@ -118,11 +111,15 @@ function chooseCharacter(evt){
     warriorSprite.src  = "./resources/sprites/fantasy_waririor.png";
 
     warriorSpriteM.src = "./resources/sprites/fantasy_waririor_M.png";
-    console.log(warriorSprite);
     const warrior0ffsetX = 64;
     const warriorOffsetY = 45;
     const warriorCollisionBox = {width: 120, height: 220};
-    const warriorAttackBox = {offsetX: 140, offsetY: 50, width: 100, height: 120};
+    const warriorAttackBox = {offsetX: 120, offsetY: 50, width: 120, height: 120};
+
+    //calculated using sprite.width/maxFramesWidth
+    const warriorWidth  =  162;
+    //calculated using sprite.height/maxFramesHeight
+    const warriorHeight =  162;
 
     //Samurai
     var samuraiStates = {
@@ -144,14 +141,17 @@ function chooseCharacter(evt){
   
     
     const samuraiCollisionBox = {width: 130, height: 235};
-    const samuraiAttackBox = {offsetX: 220, offsetY: 50, width: 80, height: 120};
+    const samuraiAttackBox = {offsetX: 120, offsetY: 50, width: 180, height: 120};
+
+    const samuraiWidth  = 200;
+    const samuraiHeight = 202;
 
     //knight
     var knightStates = {
         idle: {frames: 11, indexY: 4, autoRepeat: true, interuptable: true},
         run: {frames: 8, indexY: 6, autoRepeat: true, interuptable: true},
         attack1: {frames: 7, indexY: 0, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 75, dmg: 10},
-        attack2: {frames: 7, indexY: 1, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 300,dmg: 40},
+        attack2: {frames: 7, indexY: 1, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 150,dmg: 40},
         hit: {frames: 4, indexY: 7, autoRepeat: false, interuptable: false},
         death: {frames: 11, indexY: 2, autoRepeat: false, interuptable: false}
     };
@@ -163,13 +163,17 @@ function chooseCharacter(evt){
     const knightOffsetY =  60;
    
     const knightCollisionBox = {width: 120, height: 220};
-    const knightAttackBox = {offsetX: 200, offsetY: 50, width: 100, height: 120};
+    const knightAttackBox = {offsetX: 120, offsetY: 50, width: 210, height: 120};
+
+
+    const knightWidth  = 180;
+    const knightHeight = 182;
 
 
 
-    let warriorVar = loadFighter(warriorStates,warriorSprite,warriorSpriteM,10,7,warrior0ffsetX,warriorOffsetY,warriorCollisionBox, warriorAttackBox);
-    let samuraiVar = loadFighter(samuraiStates,samuraiSprite,samuraiSpriteM, 8,8,samuraiOffsetX,samuraiOffsetY, samuraiCollisionBox, samuraiAttackBox);
-    let knightVar  = loadFighter(knightStates,knightSprite, knightSpriteM,  11,8,knightOffsetX,knightOffsetY, knightCollisionBox, knightAttackBox); 
+    let warriorVar = loadFighter(warriorStates,warriorSprite,warriorSpriteM,warriorWidth,warriorHeight,warrior0ffsetX,warriorOffsetY,warriorCollisionBox, warriorAttackBox);
+    let samuraiVar = loadFighter(samuraiStates,samuraiSprite,samuraiSpriteM,samuraiWidth,samuraiHeight,samuraiOffsetX,samuraiOffsetY, samuraiCollisionBox, samuraiAttackBox);
+    let knightVar  = loadFighter(knightStates,knightSprite,knightSpriteM,knightWidth,knightHeight,knightOffsetX,knightOffsetY, knightCollisionBox, knightAttackBox);
 
     let rnd = Math.floor(Math.random()*2);
     
@@ -205,6 +209,7 @@ function chooseCharacter(evt){
             }
             break;
     }
+    player2AI = new SamuraiAI(Player1,Player2);
     //show the canvas onto the screen
     initCanvas();
 }
@@ -232,11 +237,6 @@ function createFighter(playerPos,healthbar,fighter){
     return player;
 }
 function loadFighter(states,sprite,spriteM,width,height,offsetX,offsetY,collisionBox,attackBox){
-    
-    let fighterWidth  =  Math.floor(sprite.width   / width);
-    let fighterHeight = Math.floor(sprite.height / height);
-
-  
     let hp = 100;
     let state = 'idle';
     let maxFrames = states[state].frames;
@@ -248,8 +248,8 @@ function loadFighter(states,sprite,spriteM,width,height,offsetX,offsetY,collisio
         state:   state,
         sprite:  sprite,
         spriteM: spriteM,
-        width:   fighterWidth,
-        height:  fighterHeight,
+        width:   width,
+        height:  height,
         offset:   {x: offsetX, y: offsetY},
         collisionBox: collisionBox,
         attackBox:    attackBox,
@@ -282,7 +282,7 @@ function initCanvas(){
     
     timer();
     collider = new CollisionControler(Player1,Player2);
-    gameLoop();
+    gameLoop(1);
     
 }
 
@@ -291,7 +291,7 @@ function exit(){
     self.close();
 }
 
-function DrawBackground(){
+function drawBackground(){
     background.style.display = "inline";
 }
 //timer that will show how long the game lasts
@@ -315,7 +315,7 @@ function timer(){
 function draw(dt){
     //clear canvas before resuming draw operations
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    DrawBackground();
+    drawBackground();
     Player1.draw(Player2,dt);
     Player2.draw(Player1,dt);
 }
@@ -341,7 +341,7 @@ function gameLoop(currentTime){
     
     //if AI is turned on then call the function for the AI.
     if(ai && Player2.isDead == false){
-        easySamurai(Player1,Player2,dt);
+        
     }
     if(Player1.isDead || Player2.isDead){
         gameOver(Player1.isDead);
@@ -349,7 +349,9 @@ function gameLoop(currentTime){
     Player1.update();
     Player2.update();
     draw(dt);
-
+    if(ai){
+        player2AI.update(dt);
+    }
     window.requestAnimationFrame(gameLoop);
 
 }

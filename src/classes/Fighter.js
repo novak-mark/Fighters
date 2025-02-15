@@ -37,8 +37,9 @@ export class Fighter extends Player
                 this.cooldownTime = 0;
             }
         }
-        ctx.fillStyle = 'red';
-        ctx.fillRect(this.x,this.y,this.collisionBox.width,this.collisionBox.height);
+        // draw collision box
+        //ctx.fillStyle = 'red';
+        //ctx.fillRect(this.x,this.y,this.collisionBox.width,this.collisionBox.height);
         //check if we need to flip the spritesheet
         if(this.isDead == false){
             //this.flipSprite(player2.x);
@@ -47,14 +48,15 @@ export class Fighter extends Player
         if(this.flip == false){
             ctx.drawImage(this.sprite,this.width*this.framesX,this.height*this.framesY,this.width,this.height, //src
                 this.x-(this.offset.x*this.scale),this.y-(this.offset.y*this.scale),this.width*this.scale,this.height*this.scale);
-            ctx.fillStyle = 'black';
-            ctx.fillRect(this.x + this.attackBox.offsetX, this.y + this.attackBox.offsetY,this.attackBox.width,this.attackBox.height);
+            //draw attack box
+            //ctx.fillStyle = 'black';
+            //ctx.fillRect(this.x + this.attackBox.offsetX, this.y + this.attackBox.offsetY,this.attackBox.width,this.attackBox.height);
         }
         else {
             ctx.drawImage(this.spriteM,(this.spriteM.width-this.width) - (this.width*this.framesX),this.height*this.framesY,this.width,this.height, //src
                 this.x-(this.offset.x*this.scale),this.y-(this.offset.y*this.scale),this.width*this.scale,this.height*this.scale);
-            ctx.fillStyle = 'black';
-            ctx.fillRect(this.x - this.attackBox.offsetX, this.y + this.attackBox.offsetY,this.attackBox.width,this.attackBox.height);
+            //ctx.fillStyle = 'black';
+            //ctx.fillRect(this.x - this.attackBox.offsetX, this.y + this.attackBox.offsetY,this.attackBox.width,this.attackBox.height);
         }
         //animation cycle
         if(this.framesC % this.framespeed == 0){
@@ -85,5 +87,6 @@ export class Fighter extends Player
             this.maxFrames = this.states[state].frames;
             this.state = state;       
         }
+        
     }
 }

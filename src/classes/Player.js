@@ -40,9 +40,6 @@ export class Player{
             this.onGround = false;
         } 
     }
-    groundCheck(){
-        console.log("burek");
-    }
     takeDMG(amount){
         let new_HP = this.hp - amount;
         if(new_HP <= 0){
@@ -68,11 +65,8 @@ export class Player{
         }
     }
     attack(enemyPlayer,dmg){
-        console.log(dmg);
         playSound("../resources/sound/hit.mp3");
         enemyPlayer.updateState("hit");
-
-
         enemyPlayer.takeDMG(dmg);
     }
     //transition into a new animation
@@ -101,11 +95,14 @@ export class Player{
         this.y += this.velocityY; 
         let ground = window.innerHeight - 250;
         if(this.y >= ground){
-            console.log("halo");
             this.y = ground;
             this.velocityY = 0;
             this.onGround = true;
             
+        }
+        if(this.isDead){
+            this.velocityX = 0;
+            this.velocityY = 0;
         }
          
     }
