@@ -100,8 +100,8 @@ function chooseCharacter(evt){
     let warriorStates = {
         idle: {frames: 10, indexY: 0, autoRepeat: true, interuptable: true},
         run: {frames: 8, indexY: 1, autoRepeat: true, interuptable: true},
-        attack1: {frames: 7, indexY: 3, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 75, dmg: 20},
-        attack2: {frames: 7, indexY: 4, autoRepeat: false, interuptable: false, attackFrame: 2, cooldown: 150,dmg: 40},
+        attack1: {frames: 7, indexY: 3, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 75, dmg: 20, soundPath: "../resources/sound/sword.mp3"},
+        attack2: {frames: 7, indexY: 4, autoRepeat: false, interuptable: false, attackFrame: 2, cooldown: 150,dmg: 40, soundPath: "../resources/sound/sword.mp3"},
         hit: {frames: 3, indexY: 5, autoRepeat: false, interuptable: false},
         death: {frames: 7, indexY: 6, autoRepeat: false, interuptable: false},
         jump: {frames: 1, indexY: 2, autoRepeat: false, interuptable: false}
@@ -125,8 +125,8 @@ function chooseCharacter(evt){
     var samuraiStates = {
         idle: {frames: 8, indexY: 4, autoRepeat: true, interuptable: true},
         run: {frames: 8, indexY: 6, autoRepeat: true, interuptable: true},
-        attack1: {frames: 6, indexY: 0, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 50, dmg: 10},
-        attack2: {frames: 6, indexY: 1, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 80, dmg: 30},
+        attack1: {frames: 6, indexY: 0, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 50, dmg: 10, soundPath: "../resources/sound/katana.mp3"},
+        attack2: {frames: 6, indexY: 1, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 80, dmg: 30, soundPath: "../resources/sound/katana.mp3"},
         hit: {frames: 4, indexY: 7, autoRepeat: false, interuptable: false},
         death: {frames: 6, indexY: 2, autoRepeat: false, interuptable: false}
     };
@@ -150,8 +150,8 @@ function chooseCharacter(evt){
     var knightStates = {
         idle: {frames: 11, indexY: 4, autoRepeat: true, interuptable: true},
         run: {frames: 8, indexY: 6, autoRepeat: true, interuptable: true},
-        attack1: {frames: 7, indexY: 0, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 75, dmg: 10},
-        attack2: {frames: 7, indexY: 1, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 150,dmg: 40},
+        attack1: {frames: 7, indexY: 0, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 75, dmg: 10, soundPath: "./resources/sound/sword.mp3"},
+        attack2: {frames: 7, indexY: 1, autoRepeat: false, interuptable: false, attackFrame: 4, cooldown: 150,dmg: 40, soundPath: "./resources/sound/sword.mp3"},
         hit: {frames: 4, indexY: 7, autoRepeat: false, interuptable: false},
         death: {frames: 11, indexY: 2, autoRepeat: false, interuptable: false}
     };

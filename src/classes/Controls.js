@@ -1,5 +1,5 @@
 import { Player } from "./Player.js";
-import { playSound } from "../logic.js"
+import { playSound } from "../logic.js";
 
 //player input, when key is pressed set that key to true, when the key is not pressedset that key to false
 const controlMap = {
@@ -119,11 +119,9 @@ export class Controls {
         this.player1.jump(dt);
       } 
       else if (controlMap["key1"] && this.player1.canAttack) {
-        playSound("../resources/sound/sword.mp3");
         this.player1.updateState("attack1");
       } 
       else if (controlMap["key2"] && this.player1.canAttack) {
-        playSound("../resources/sound/sword.mp3");
         this.player1.updateState("attack2");
       }
     }
@@ -137,11 +135,9 @@ export class Controls {
         this.player2.updateState("run");
       }
       else if(controlMap["keyNum1"] && this.player2.canAttack){
-        playSound("../resources/sound/katana.mp3");
         this.player2.updateState("attack1");
       }
       else if(controlMap["keyNum2"] && this.player2.canAttack){
-        playSound("../resources/sound/katana.mp3");
         this.player2.updateState("attack2");
       }
     }

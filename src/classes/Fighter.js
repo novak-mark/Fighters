@@ -1,4 +1,5 @@
 import { Player } from "./Player.js";
+import { playSound } from "../logic.js";
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext("2d");
 
@@ -85,7 +86,12 @@ export class Fighter extends Player
             this.framesX = 0;
             this.framesY = this.states[state].indexY;
             this.maxFrames = this.states[state].frames;
-            this.state = state;       
+            this.state = state;
+            
+            if(this.states[state].soundPath){
+                console.log("smo tuki");
+                playSound(this.states[state].soundPath);
+            }
         }
         
     }
