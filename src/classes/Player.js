@@ -65,7 +65,7 @@ export class Player{
         }
     }
     attack(enemyPlayer,dmg){
-        playSound("../resources/sound/hit.mp3");
+        playSound("./resources/sound/hit.mp3");
         enemyPlayer.updateState("hit");
         enemyPlayer.takeDMG(dmg);
     }
